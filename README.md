@@ -17,7 +17,6 @@ TBD
 *
 *
 
-
 ## Technologies
 * Java
 * Spring framework
