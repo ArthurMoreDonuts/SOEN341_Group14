@@ -14,7 +14,7 @@ TBD
 * Philippe Bertrand - philippebertrand22
 * Daniel Gelfand - DanielGelfand-dev
 * Domenico Giancola - dgiancola
-*
+* Zachary Levine - zlev1
 *
 
 ## Technologies
