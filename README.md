@@ -13,10 +13,10 @@ TBD
 * Ahmed Dawoud - ArthurMoreDonuts
 * Philippe Bertrand - philippebertrand22
 * Daniel Gelfand - DanielGelfand-dev
+* Domenico Giancola - dgiancola
 *
 *
-*
-*
+
 
 ## Technologies
 * Java
