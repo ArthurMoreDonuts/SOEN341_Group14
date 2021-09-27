@@ -16,7 +16,7 @@ The core features to be developed are: Being able to post and answer questions, 
 * Daniel Gelfand - DanielGelfand-dev
 * Domenico Giancola - dgiancola
 * Zachary Levine - zlev1
-*
+* Minnelle Zafar - minmau5
 
 ## Technologies
 * Java
