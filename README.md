@@ -2,11 +2,12 @@
 
 ## Objective
 
-To create a platform where people can ask questions and receive answers for their questions. Other users can vote for answers, and the answer with the highest vote becomes the best answer. Furthermore, The original author of the question can choose the best answer.
+The objective of this project is to recreate a platform similar to stack overflow.
 
 ## Project
 
-TBD
+To create a platform where people can ask questions and receive answers for their questions. Other users can vote for answers, and the answer with the highest vote becomes the best answer. Furthermore, The original author of the question can choose the best answer.
+The core features to be developed are: Being able to post and answer questions, Vote on best answer as a viewer, Accept best answer as postee.
 
 ## Team Members
 
