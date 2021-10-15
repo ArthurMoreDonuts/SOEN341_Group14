@@ -36,11 +36,11 @@ public class Soen341Application {
 		};
 	}
 	// Entering hardcoded data to the database
-	Answer answer= new Answer(question.getId(), "Youngest Oldman", "Google it bro", LocalDateTime.now());
-
+	Answer answer;
 	@Bean
 	CommandLineRunner runner3(AnswerRepository repository){
 		return args ->{
+			answer= new Answer(question.getId(), "Youngest Oldman", "Google it bro", LocalDateTime.now());
 			repository.insert(answer);
 
 		};
