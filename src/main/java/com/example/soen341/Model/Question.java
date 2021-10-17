@@ -15,12 +15,14 @@ public class Question {
     private String title;
     private String description;
     private LocalDateTime created;
+    private boolean answered;
 
     public Question(String author, String title, String description, LocalDateTime created) {
         this.author = author;
         this.title = title;
         this.description = description;
         this.created = created;
+        answered = false;
     }
 
 }

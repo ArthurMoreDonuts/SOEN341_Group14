@@ -5,7 +5,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Data
 @Document
@@ -19,11 +21,15 @@ public class User {
     private String email;
     private String password;
     private LocalDateTime created;
+    private ArrayList<Vote> upVotes;
+    private ArrayList<Vote> downVotes;
 
     public User(String username, String email, String password, LocalDateTime created) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.created = created;
+        upVotes = new ArrayList<Vote>();
+        downVotes = new ArrayList<Vote>();
     }
 }
