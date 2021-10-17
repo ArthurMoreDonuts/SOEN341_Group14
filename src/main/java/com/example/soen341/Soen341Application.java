@@ -1,5 +1,13 @@
 package com.example.soen341;
 
+import com.example.soen341.Model.Answer;
+import com.example.soen341.Model.Question;
+import com.example.soen341.Model.User;
+import com.example.soen341.Model.Vote;
+import com.example.soen341.Repository.AnswerRepository;
+import com.example.soen341.Repository.QuestionRepository;
+import com.example.soen341.Repository.UserRepository;
+import com.example.soen341.Repository.VoteRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,7 +28,7 @@ public class Soen341Application {
 	CommandLineRunner runner(UserRepository repository){
 		return args ->{
 			User user = new User("Youngest Oldman","ahmed_hani_dawoud@hotmail.com","123456789", LocalDateTime.now());
-			repository.insert(user);
+			//repository.insert(user);
 		};
 		}
 
@@ -32,17 +40,19 @@ public class Soen341Application {
 	CommandLineRunner runner2(QuestionRepository repository){
 		return args ->{
 			repository.insert(question);
+			System.out.println(repository.findByTitleContaining("collection").size());
 
 		};
 	}
 	// Entering hardcoded data to the database
-	Answer answer= new Answer(question.getId(), "Youngest Oldman", "Google it bro", LocalDateTime.now());
+	Answer answer;
 
 	@Bean
 	CommandLineRunner runner3(AnswerRepository repository){
 		return args ->{
+			answer = new Answer(question.getId(), "Youngest Oldman", "Google it bro", LocalDateTime.now());
 			repository.insert(answer);
-
+           // repository.findAnswerByQuestionId(question.getId()).ifPresentOrElse(answer1 -> {System.out.println(answer1 + " Already exist"); }, () -> {});
 		};
 	}
 
