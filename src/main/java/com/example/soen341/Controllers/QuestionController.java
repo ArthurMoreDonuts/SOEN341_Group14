@@ -45,6 +45,8 @@ using /api/
 class QuestionController{
     @Autowired 
     QuestionRepository qRepo;
+
+    @Autowired
     AnswerRepository aRepo;
     /**
      * 
@@ -93,7 +95,7 @@ class QuestionController{
      * @param author the author of all the questions to be returned
      * @return either the list of all the questions or error
      */
-    @GetMapping("/{author}")
+    @GetMapping("/Questions/{author}")
     public ResponseEntity<List<Question>> getQuestionByAuthor(@PathVariable String author){
         try{
             List<Question> qList = qRepo.findByAuthor(author);

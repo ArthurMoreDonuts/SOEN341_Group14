@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class VoteController {
     @Autowired
     VoteRepository vRepo;
+
+    @Autowired
     UserRepository uRepo;
 
     /**
@@ -34,7 +36,7 @@ public class VoteController {
      * is updated accordingly. the stored state should toggle.
      * @return the new stored vote or error
      */
-    @PutMapping("/Questions/{id}")
+    @PutMapping("/Answers/Vote")
     public ResponseEntity<Vote> createVote(@RequestBody Vote vote){
         try {
             Vote vote_ = vRepo.findByAnswerId(vote.getAnswerId());
@@ -90,7 +92,7 @@ public class VoteController {
      * @param vote the current vote status of the answer 
      * @return if the user has either upvoted downvoted or not voted or server error.
      */
-    @GetMapping("/Questions/{id}")
+    @GetMapping("/Answers/Vote")
     public ResponseEntity<String> UpOrDown(String username,@RequestBody Vote vote){
         try{
             User usr = uRepo.findByUsername(username);

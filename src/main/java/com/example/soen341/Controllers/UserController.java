@@ -50,7 +50,7 @@ class UserController{
         }
     }
 
-    @GetMapping("/New_User")
+    @GetMapping("/New_User/Uname")
     public ResponseEntity<Boolean> checkUniqueUsername(@RequestParam String username) {
         try {
             User usersByname = uRepo.findByUsername(username);
@@ -67,7 +67,7 @@ class UserController{
         }
     }
 
-    @GetMapping("/New_User")
+    @GetMapping("/New_User/Email")
     public ResponseEntity<Boolean> checkUniqueEmail(@RequestParam String email) {
         try {
             User usersByname = uRepo.findByEmail(email);

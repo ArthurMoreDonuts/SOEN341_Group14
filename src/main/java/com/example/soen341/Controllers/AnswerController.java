@@ -40,6 +40,8 @@ import java.util.Optional;
 class AnswerController{
     @Autowired 
     AnswerRepository answerRepo;
+
+    @Autowired
     QuestionRepository qRepo;
 
     /**
@@ -47,7 +49,7 @@ class AnswerController{
      * @param qId Uri question id
      * @return Http request list of answers or errors
      */
-    @GetMapping("/Questions/{id}")
+    @GetMapping("/Questions/{id}/Answers")
     public ResponseEntity <List<Answer>> getAnswersByQuestionId(@PathVariable String qId){
         try{
             List<Answer> rAnswer = answerRepo.findByQuestionId(qId);
@@ -91,7 +93,7 @@ class AnswerController{
      * @param user all answers from the specific author
      * @return
      */
-    @GetMapping("/{author}")
+    @GetMapping("/Answers/{author}")
     public ResponseEntity<List<Answer>> getAnswersByAuthor(@PathVariable String user){
         try{
             List<Answer> aList = answerRepo.findByAuthor(user);
@@ -111,7 +113,7 @@ class AnswerController{
      * @param answer the answer sent in by the front end
      * @return either the answer is created or the server had errors.
      */
-    @PostMapping("/Questions/{id}")
+    @PostMapping("/Questions/{id}/Answers")
     public ResponseEntity<Answer> postAnswer(@RequestBody Answer answer){
         try{
             Answer answeredQuestion = answerRepo.save(new Answer(answer.getQuestionId(),
@@ -171,7 +173,7 @@ class AnswerController{
      * @param qId the id of the question 
      * @return nothing or server error
      */
-    @DeleteMapping("/Questions/{id}")
+    @DeleteMapping("/Questions/{id}/Answers")
     public ResponseEntity<HttpStatus> deleteAnswerbyQuestion(@PathVariable String qId){
         try {
             answerRepo.deleteByQuestionId(qId);
