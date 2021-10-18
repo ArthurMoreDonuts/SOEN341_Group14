@@ -95,7 +95,7 @@ class QuestionController{
      * @param author the author of all the questions to be returned
      * @return either the list of all the questions or error
      */
-    @GetMapping("/Questions/{author}")
+    @GetMapping("/Questions/auth/{author}")
     public ResponseEntity<List<Question>> getQuestionByAuthor(@PathVariable String author){
         try{
             List<Question> qList = qRepo.findByAuthor(author);
