@@ -74,7 +74,7 @@ class QuestionController{
      * @return either the question or error
      */
     @GetMapping("/Questions/{id}")
-    public ResponseEntity <Question> getQuestionById(@PathVariable("id") String id){
+    public ResponseEntity <Question> getQuestionById(@PathVariable String id){
        // try{
             Optional<Question> rQuestion = qRepo.findById(id);
             if (rQuestion.isEmpty()){
@@ -137,8 +137,8 @@ class QuestionController{
             Question question_ = qRepo.save(new Question(
                 question.getAuthor(),
                 question.getTitle(),
-                question.getDescription(), 
-                question.getCreated()));
+                question.getDescription()
+               ));
             return new ResponseEntity<>(question_,HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

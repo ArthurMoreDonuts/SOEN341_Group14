@@ -16,10 +16,10 @@ public class Answer {
     private String response;
     private LocalDateTime created;
 
-    public Answer(String questionId, String author, String response, LocalDateTime created) {
+    public Answer(String questionId, String author, String response) {
         this.questionId = questionId;
         this.author = author;
         this.response = response;
-        this.created = created;
+        this.created = LocalDateTime.now();
     }
 }

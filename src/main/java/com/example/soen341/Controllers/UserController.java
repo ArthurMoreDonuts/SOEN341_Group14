@@ -42,8 +42,8 @@ class UserController{
         try{
             User newUser = uRepo.save(new User(user.getUsername(),
                 user.getEmail(),
-                user.getPassword(),
-                user.getCreated()));
+                user.getPassword()
+               ));
             return new ResponseEntity<>(newUser,HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

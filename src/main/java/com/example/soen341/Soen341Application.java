@@ -27,19 +27,19 @@ public class Soen341Application {
 	@Bean
 	CommandLineRunner runner(UserRepository repository){
 		return args ->{
-			User user = new User("Youngest Oldman","ahmed_hani_dawoud@hotmail.com","123456789", LocalDateTime.now());
-			repository.insert(user);
+			User user = new User("Youngest Oldman","ahmed_hani_dawoud@hotmail.com","123456789");
+		//	repository.insert(user);
 		};
 		}
 
 
 	// Entering hardcoded data to the database
-	Question question = new Question("Youngest Oldman", "Can we have more than one document type in a collection?", "As written in the title above", LocalDateTime.now());
+	Question question = new Question("Youngest Oldman", "Can we have more than one document type in a collection?", "As written in the title above");
 
 	@Bean
 	CommandLineRunner runner2(QuestionRepository repository){
 		return args ->{
-			question.setAnswered(true);
+			//question.setAnswered(true);
 			repository.insert(question);
 			System.out.println(repository.findByTitleContaining("collection").size());
 
@@ -51,7 +51,8 @@ public class Soen341Application {
 	@Bean
 	CommandLineRunner runner3(AnswerRepository repository){
 		return args ->{
-			answer = new Answer(question.getId(), "Youngest Oldman", "Google it bro", LocalDateTime.now());
+
+			answer = new Answer(question.getId(), "Youngest Oldman", "Google it bro");
 			repository.insert(answer);
            // repository.findAnswerByQuestionId(question.getId()).ifPresentOrElse(answer1 -> {System.out.println(answer1 + " Already exist"); }, () -> {});
 		};

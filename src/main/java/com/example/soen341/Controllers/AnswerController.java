@@ -50,7 +50,7 @@ class AnswerController{
      * @return Http request list of answers or errors
      */
     @GetMapping("/Questions/{id}/Answers")
-    public ResponseEntity <List<Answer>> getAnswersByQuestionId(@PathVariable String qId){
+    public ResponseEntity <List<Answer>> getAnswersByQuestionId(@PathVariable("id") String qId){
         try{
             List<Answer> rAnswer = answerRepo.findByQuestionId(qId);
             if (rAnswer.isEmpty()){
@@ -71,7 +71,7 @@ class AnswerController{
      * @param aId the Id of the specific answer
      * @return the specific answer requested or erros
      */
-    @GetMapping("/Questions/{id}/{ansId}")
+    @GetMapping("/Answers/{ansId}")
     public ResponseEntity <Answer> getAnswersById(@PathVariable("ansId") String aId){
         try{
             Optional<Answer> rAnswer = answerRepo.findById(aId);
@@ -93,7 +93,7 @@ class AnswerController{
      * @param user all answers from the specific author
      * @return
      */
-    @GetMapping("/Answers/{author}")
+    @GetMapping("/Answers/auth/{author}")
     public ResponseEntity<List<Answer>> getAnswersByAuthor(@PathVariable String user){
         try{
             List<Answer> aList = answerRepo.findByAuthor(user);
@@ -118,10 +118,11 @@ class AnswerController{
         try{
             Answer answeredQuestion = answerRepo.save(new Answer(answer.getQuestionId(),
                 answer.getAuthor(),
-                answer.getResponse(),
-                answer.getCreated()));
+                answer.getResponse()
+               ));
             
             Optional<Question> QbyId = qRepo.findById(answeredQuestion.getQuestionId());
+            //TODO Warning:(181, 32) 'Optional.get()' without 'isPresent()' check
             Question q = QbyId.get();
             q.setAnswered(true);
             qRepo.save(q);
@@ -137,7 +138,7 @@ class AnswerController{
      * @param answer the edited answer from the front end
      * @return either the updated answer or an error.
      */
-    @PutMapping("/Questions/{id}/{ansId}")
+    @PutMapping("/Answers/{ansId}")
     public ResponseEntity<Answer> editAnswer(@PathVariable("ansId") String ansId,@RequestBody Answer answer){
 
         Optional<Answer> rAnswer = answerRepo.findById(answer.getId());
@@ -157,8 +158,8 @@ class AnswerController{
      * @param aId the id of the answer from the uri
      * @return nothing or error
      */
-    @DeleteMapping("/Questions/{id}/{ansId}")
-    public ResponseEntity<HttpStatus> deleteAnswerbyId(@PathVariable("ansId") String aId){
+    @DeleteMapping("/Answers/{ansId}")
+    public ResponseEntity<HttpStatus> deleteAnswerById(@PathVariable("ansId") String aId){
         try {
             answerRepo.deleteById(aId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -174,10 +175,11 @@ class AnswerController{
      * @return nothing or server error
      */
     @DeleteMapping("/Questions/{id}/Answers")
-    public ResponseEntity<HttpStatus> deleteAnswerbyQuestion(@PathVariable String qId){
+    public ResponseEntity<HttpStatus> deleteAnswerByQuestion(@PathVariable String qId){
         try {
             answerRepo.deleteByQuestionId(qId);
             Optional<Question> QbyId = qRepo.findById(qId);
+            // TODO Warning:(181, 32) 'Optional.get()' without 'isPresent()' check
             Question q = QbyId.get();
             q.setAnswered(false);
             qRepo.save(q);
