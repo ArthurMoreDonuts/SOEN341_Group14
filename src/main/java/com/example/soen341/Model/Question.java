@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,12 +16,14 @@ public class Question {
     private String title;
     private String description;
     private LocalDateTime created;
+    private boolean answered;
 
-    public Question(String author, String title, String description, LocalDateTime created) {
+    public Question(String author, String title, String description) {
         this.author = author;
         this.title = title;
         this.description = description;
-        this.created = created;
+        this.created = LocalDateTime.now();
+        answered = false;
     }
 
 }

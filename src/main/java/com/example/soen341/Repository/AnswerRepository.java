@@ -10,7 +10,7 @@ public interface AnswerRepository
 
     List<Answer> findByAuthor(String author);
     List<Answer> findByQuestionId(String questionId);
-
+    long deleteByQuestionId(String questionId);
 
 
 }

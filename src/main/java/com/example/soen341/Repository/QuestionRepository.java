@@ -11,5 +11,6 @@ public interface QuestionRepository
 
     List<Question> findByAuthor(String author);
     List<Question> findByTitleContaining(String phrase);
+    List<Question> findByAnswered(boolean answered);
 }
 
