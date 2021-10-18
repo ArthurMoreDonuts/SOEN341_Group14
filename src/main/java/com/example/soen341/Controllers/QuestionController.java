@@ -74,18 +74,19 @@ class QuestionController{
      * @return either the question or error
      */
     @GetMapping("/Questions/{id}")
-    public ResponseEntity <Question> getQuestionById(@PathVariable String id){
-        try{
+    public ResponseEntity <Question> getQuestionById(@PathVariable("id") String id){
+       // try{
             Optional<Question> rQuestion = qRepo.findById(id);
-            if (rQuestion.isEmpty()){
+            if (!rQuestion.isPresent()){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             else{
                 return new ResponseEntity<>(rQuestion.get(),HttpStatus.OK);
             }
+        /*
         } catch (Exception e){
            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        }*/
 
        
     }
@@ -95,7 +96,7 @@ class QuestionController{
      * @param author the author of all the questions to be returned
      * @return either the list of all the questions or error
      */
-    @GetMapping("/Questions/{author}")
+    @GetMapping("/Questions/auth/{author}")
     public ResponseEntity<List<Question>> getQuestionByAuthor(@PathVariable String author){
         try{
             List<Question> qList = qRepo.findByAuthor(author);

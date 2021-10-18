@@ -28,7 +28,7 @@ public class Soen341Application {
 	CommandLineRunner runner(UserRepository repository){
 		return args ->{
 			User user = new User("Youngest Oldman","ahmed_hani_dawoud@hotmail.com","123456789", LocalDateTime.now());
-			//repository.insert(user);
+			repository.insert(user);
 		};
 		}
 
@@ -39,6 +39,7 @@ public class Soen341Application {
 	@Bean
 	CommandLineRunner runner2(QuestionRepository repository){
 		return args ->{
+			question.setAnswered(true);
 			repository.insert(question);
 			System.out.println(repository.findByTitleContaining("collection").size());
 

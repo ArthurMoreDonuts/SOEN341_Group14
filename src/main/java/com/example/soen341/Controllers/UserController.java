@@ -85,7 +85,7 @@ class UserController{
     }
 
     @GetMapping("/login")
-    public ResponseEntity<String> getPassword(String usr_eml){
+    public ResponseEntity<String> getPassword(@RequestParam String usr_eml){
         try {
             User user = usr_eml.contains("@") ? uRepo.findByEmail(usr_eml):uRepo.findByUsername(usr_eml);
             if (user == null){
