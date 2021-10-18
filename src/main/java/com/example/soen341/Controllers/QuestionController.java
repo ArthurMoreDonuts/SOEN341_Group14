@@ -77,7 +77,7 @@ class QuestionController{
     public ResponseEntity <Question> getQuestionById(@PathVariable("id") String id){
        // try{
             Optional<Question> rQuestion = qRepo.findById(id);
-            if (!rQuestion.isPresent()){
+            if (rQuestion.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             else{
