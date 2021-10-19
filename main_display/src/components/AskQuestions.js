@@ -5,6 +5,8 @@ import PostButton from "./PostButton";
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
+import axios from 'axios';
+import http from "../http-common"
 
 
 const Container = styled.div`
@@ -57,12 +59,38 @@ const [questionBody, setQuestionBody] = useState('');
     }
 */
 
+
+function postQuestion() {
+       alert('Question Posted! ');
+
+
+
+   var questionObject= {
+                   author: 'Anonymous',
+                   title: questionTitleInput,
+                   description: questionBody
+                   };
+        const http = new XMLHttpRequest();
+
+
+        http.open("POST","http://localhost:8080/api/Questions");
+        http.setRequestHeader("Content-Type" , "application/json");
+
+        console.log(questionObject);
+
+        http.send(JSON.stringify(questionObject));
+        //http.send(JSON.stringify(questionObject));
+
+
+
+
+    }
 return(
 
 <Container>
     <StyledHeader>Ask a question</StyledHeader>
-    <form>
-    <QuestionTitle  type = "text" 
+    <form onSubmit={postQuestion}>
+    <QuestionTitle  type = "text"
                     value = {questionTitleInput} 
                     onChange={e => setQuestionTitleInput(e.target.value)}
                     placeholder="Title of your question" />
@@ -74,12 +102,13 @@ return(
     <div>
     <ReactMarkdown plugins={[gfm]} children={''} />
     </div>
-    
-    <PostButton type={'submit'}>Post</PostButton>
+
+    <PostButton type='submit'  onClick= {postQuestion} >Post</PostButton>
     </form>
    
 </Container>
 
 );
+
 
 }
