@@ -5,6 +5,7 @@ import Counters from './counters';
 import { Login } from './login';
 import { Register } from './login';
 import listOfQuestions from './listOfQuestions';
+import postedQuestion from './PostedQuestion';
 class NavBar extends Component {
     render() { 
 
@@ -50,6 +51,7 @@ class NavBar extends Component {
             <Route exact path="/Login" component={Login} />
             <Route exact path="/Register" component={Register} />
             <Route exact path="/Questions" component={listOfQuestions} />
+            <Route path="/Questions/:id" component = {postedQuestion}/>
           </Switch>
         </div>
             </nav>

@@ -6,7 +6,9 @@ import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
 import axios from 'axios';
-import http from "../http-common"
+import http from "../http-common";
+
+
 
 
 const Container = styled.div`
@@ -47,6 +49,8 @@ export default function AskQuestions() {
 const [questionTitleInput, setQuestionTitleInput] = useState('');
 const [questionBody, setQuestionBody] = useState('');
 
+
+
     //To save questions/ post- to add to database with endpoint e.g /questions to send request to API
     //p4 1:35
     /*
@@ -59,9 +63,9 @@ const [questionBody, setQuestionBody] = useState('');
     }
 */
 
-
+var questionID;
 function postQuestion() {
-       alert('Question Posted! ');
+
 
 
 
@@ -79,17 +83,36 @@ function postQuestion() {
         console.log(questionObject);
 
         http.send(JSON.stringify(questionObject));
+
         //http.send(JSON.stringify(questionObject));
+        http.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 201) {
+             var question;
+             question = JSON.parse(this.responseText);
+             questionID = question.id;
+              console.log(questionID);
+
+              alert('Question Posted! ');
+
+              //redirecting to the questions page
+
+
+              window.location.href = "/Questions/"+questionID;
 
 
 
+            }
+          }
 
+
+
+return questionID;
     }
 return(
 
 <Container>
     <StyledHeader>Ask a question</StyledHeader>
-    <form onSubmit={postQuestion}>
+    <form onSubmit={console.log("form")}>
     <QuestionTitle  type = "text"
                     value = {questionTitleInput} 
                     onChange={e => setQuestionTitleInput(e.target.value)}
@@ -103,7 +126,7 @@ return(
     <ReactMarkdown plugins={[gfm]} children={''} />
     </div>
 
-    <PostButton type='submit'  onClick= {postQuestion} >Post</PostButton>
+    <PostButton type='button'  onClick= {postQuestion} >Post</PostButton>
     </form>
    
 </Container>

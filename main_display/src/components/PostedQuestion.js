@@ -1,18 +1,22 @@
 import React from "react";
 import DataService from "../services/question.service";
+import { useHistory, useParams } from 'react-router-dom'
+import { withRouter } from "react-router";
 import axios from 'axios';
 import './styling.css';
 
-export class listOfQuestions extends React.Component{
+export class postedQuestion extends React.Component{
 state = {
     questions: []
 }
 
-  componentDidMount() {
-    axios.get('http://localhost:8080/api/Questions')
+componentDidMount() {
+  const id = this.props.match.params.id;
+    axios.get('http://localhost:8080/api/Questions/'+id)
       .then(res => {
-        const questions = res.data;
-        this.setState({questions });
+        const questions = [];
+        questions.push( res.data);
+         this.setState({questions });
         console.log(this.state.questions);
       })
   }
@@ -45,4 +49,4 @@ render()
 
     }
 }
-export default listOfQuestions;
+export default postedQuestion;
