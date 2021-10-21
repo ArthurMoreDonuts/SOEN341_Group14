@@ -30,7 +30,7 @@ import java.util.Optional;
 
 
 // insert whatever port your test server loads.
-@CrossOrigin(origins = {"http://localhost:3000","http://localhost:8081"})
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:8080"})
 @RestController
 @RequestMapping("/api")
 

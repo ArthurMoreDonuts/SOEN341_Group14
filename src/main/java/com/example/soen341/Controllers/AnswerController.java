@@ -90,13 +90,13 @@ class AnswerController{
 
     /**
      * 
-     * @param user all answers from the specific author
+     * @param author all answers from the specific author
      * @return
      */
     @GetMapping("/Answers/auth/{author}")
-    public ResponseEntity<List<Answer>> getAnswersByAuthor(@PathVariable String user){
+    public ResponseEntity<List<Answer>> getAnswersByAuthor(@PathVariable String author){
         try{
-            List<Answer> aList = answerRepo.findByAuthor(user);
+            List<Answer> aList = answerRepo.findByAuthor(author);
             if (aList.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -113,7 +113,7 @@ class AnswerController{
      * @param answer the answer sent in by the front end
      * @return either the answer is created or the server had errors.
      */
-    @PostMapping("/Questions/{id}/Answers")
+    @PostMapping("/Questions/Answers")
     public ResponseEntity<Answer> postAnswer(@RequestBody Answer answer){
         try{
             Answer answeredQuestion = answerRepo.save(new Answer(answer.getQuestionId(),
@@ -171,14 +171,14 @@ class AnswerController{
     
     /**
      * 
-     * @param qId the id of the question 
+     * @param id the id of the question
      * @return nothing or server error
      */
     @DeleteMapping("/Questions/{id}/Answers")
-    public ResponseEntity<HttpStatus> deleteAnswerByQuestion(@PathVariable String qId){
+    public ResponseEntity<HttpStatus> deleteAnswerByQuestion(@PathVariable String id){
         try {
-            answerRepo.deleteByQuestionId(qId);
-            Optional<Question> QbyId = qRepo.findById(qId);
+            answerRepo.deleteByQuestionId(id);
+            Optional<Question> QbyId = qRepo.findById(id);
             // TODO Warning:(181, 32) 'Optional.get()' without 'isPresent()' check
             Question q = QbyId.get();
             q.setAnswered(false);
