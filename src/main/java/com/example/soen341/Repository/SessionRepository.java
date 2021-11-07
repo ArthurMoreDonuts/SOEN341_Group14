@@ -9,7 +9,7 @@ import com.example.soen341.Model.User;
 
 public interface SessionRepository
         extends MongoRepository<Session, String> {
-    List<Session> findByUser(User usr);
+    List<Session> findByusr(User usr);
 
 
 }

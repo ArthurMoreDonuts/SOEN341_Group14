@@ -23,7 +23,6 @@ public class User {
     private LocalDateTime created;
     private ArrayList<Vote> upVotes;
     private ArrayList<Vote> downVotes;
-    private ArrayList<Session> Sessions; 
 
     public User(String username, String email, String password) {
         this.username = username;

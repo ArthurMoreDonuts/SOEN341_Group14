@@ -100,11 +100,8 @@ class UserController{
             }
             if (user.getPassword() == usr.getPassword()){
                 ArrayList<String> retObj = new ArrayList<String>(); 
-                ArrayList<Session> sessions = user.getSessions();
                 Session sesh = new Session(user);
-                sessions.add(sesh);
                 sRepo.insert(sesh);
-                user.setSessions(sessions);
                 retObj.add(user.getUsername());
                 retObj.add(user.getEmail());
                 retObj.add(sesh.getId());
