@@ -23,11 +23,13 @@ public class User {
     private LocalDateTime created;
     private ArrayList<Vote> upVotes;
     private ArrayList<Vote> downVotes;
+    private ArrayList<Session> Sessions; 
 
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
+
         this.created = LocalDateTime.now();
         upVotes = new ArrayList<Vote>();
         downVotes = new ArrayList<Vote>();

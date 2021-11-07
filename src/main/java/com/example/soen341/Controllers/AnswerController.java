@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.qos.logback.core.joran.conditional.ElseAction;
 
 import java.util.List;
 import java.util.Optional;
@@ -90,13 +91,13 @@ class AnswerController{
 
     /**
      * 
-     * @param user all answers from the specific author
+     * @param author all answers from the specific author
      * @return
      */
     @GetMapping("/Answers/auth/{author}")
-    public ResponseEntity<List<Answer>> getAnswersByAuthor(@PathVariable String user){
+    public ResponseEntity<List<Answer>> getAnswersByAuthor(@PathVariable String author){
         try{
-            List<Answer> aList = answerRepo.findByAuthor(user);
+            List<Answer> aList = answerRepo.findByAuthor(author);
             if (aList.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -113,7 +114,7 @@ class AnswerController{
      * @param answer the answer sent in by the front end
      * @return either the answer is created or the server had errors.
      */
-    @PostMapping("/Questions/{id}/Answers")
+    @PostMapping("/Questions/Answers")
     public ResponseEntity<Answer> postAnswer(@RequestBody Answer answer){
         try{
             Answer answeredQuestion = answerRepo.save(new Answer(answer.getQuestionId(),
@@ -122,8 +123,12 @@ class AnswerController{
                ));
             
             Optional<Question> QbyId = qRepo.findById(answeredQuestion.getQuestionId());
-            //TODO Warning:(181, 32) 'Optional.get()' without 'isPresent()' check
-            Question q = QbyId.get();
+            
+            Question q;
+            if (QbyId.isPresent())
+                 q= QbyId.get();
+            else
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             q.setAnswered(true);
             qRepo.save(q);
             return new ResponseEntity<>(answeredQuestion,HttpStatus.CREATED);
@@ -171,16 +176,19 @@ class AnswerController{
     
     /**
      * 
-     * @param qId the id of the question 
+     * @param id the id of the question 
      * @return nothing or server error
      */
     @DeleteMapping("/Questions/{id}/Answers")
-    public ResponseEntity<HttpStatus> deleteAnswerByQuestion(@PathVariable String qId){
+    public ResponseEntity<HttpStatus> deleteAnswerByQuestion(@PathVariable String id){
         try {
-            answerRepo.deleteByQuestionId(qId);
-            Optional<Question> QbyId = qRepo.findById(qId);
-            // TODO Warning:(181, 32) 'Optional.get()' without 'isPresent()' check
-            Question q = QbyId.get();
+            answerRepo.deleteByQuestionId(id);
+            Optional<Question> QbyId = qRepo.findById(id);
+            Question q;
+            if (QbyId.isPresent())
+                 q= QbyId.get();
+            else
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             q.setAnswered(false);
             qRepo.save(q);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
