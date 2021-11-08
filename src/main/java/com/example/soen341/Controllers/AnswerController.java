@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.qos.logback.core.joran.conditional.ElseAction;
 
 import java.util.List;
 import java.util.Optional;
@@ -122,8 +123,12 @@ class AnswerController{
                ));
             
             Optional<Question> QbyId = qRepo.findById(answeredQuestion.getQuestionId());
-            //TODO Warning:(181, 32) 'Optional.get()' without 'isPresent()' check
-            Question q = QbyId.get();
+            
+            Question q;
+            if (QbyId.isPresent())
+                 q= QbyId.get();
+            else
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             q.setAnswered(true);
             qRepo.save(q);
             return new ResponseEntity<>(answeredQuestion,HttpStatus.CREATED);
@@ -171,7 +176,7 @@ class AnswerController{
     
     /**
      * 
-     * @param id the id of the question
+     * @param id the id of the question 
      * @return nothing or server error
      */
     @DeleteMapping("/Questions/{id}/Answers")
@@ -179,8 +184,11 @@ class AnswerController{
         try {
             answerRepo.deleteByQuestionId(id);
             Optional<Question> QbyId = qRepo.findById(id);
-            // TODO Warning:(181, 32) 'Optional.get()' without 'isPresent()' check
-            Question q = QbyId.get();
+            Question q;
+            if (QbyId.isPresent())
+                 q= QbyId.get();
+            else
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             q.setAnswered(false);
             qRepo.save(q);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

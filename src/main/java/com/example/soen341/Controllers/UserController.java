@@ -6,6 +6,8 @@
 package com.example.soen341.Controllers;
 
 import com.example.soen341.Model.User;
+import com.example.soen341.Model.Session;
+import com.example.soen341.Repository.SessionRepository;
 import com.example.soen341.Repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 
-
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Optional;
 
 
 // insert whatever port your test server loads.
@@ -36,6 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 class UserController{
     @Autowired 
     UserRepository uRepo;
+    SessionRepository sRepo; 
 
     @PostMapping("/New_User")
     public ResponseEntity<User> createUser(@RequestBody User user){
@@ -84,15 +89,27 @@ class UserController{
         }
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<String> getPassword(@RequestParam String usr_eml){
+    @PostMapping("/login")
+    public ResponseEntity<List<String>> getUser(@RequestBody User usr){
         try {
+            String usr_eml = usr.getUsername();
+
             User user = usr_eml.contains("@") ? uRepo.findByEmail(usr_eml):uRepo.findByUsername(usr_eml);
             if (user == null){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
+            if (user.getPassword() == usr.getPassword()){
+                ArrayList<String> retObj = new ArrayList<String>(); 
+                Session sesh = new Session(user);
+                sRepo.insert(sesh);
+                retObj.add(user.getUsername());
+                retObj.add(user.getEmail());
+                retObj.add(sesh.getId());
+                return new ResponseEntity<>(retObj,HttpStatus.OK); 
+
+            }
             else{
-                return new ResponseEntity<>(user.getPassword(),HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
         } catch (Exception e) {
@@ -100,6 +117,25 @@ class UserController{
         }
     }
 
-
+    @GetMapping ("/Session")
+    public ResponseEntity<List<String>> getUserBySessionId(@RequestParam String seshId){
+        try {
+            Optional<Session> currentSession = sRepo.findById(seshId);
+            if (currentSession.isPresent()){
+                Session sesh = currentSession.get();
+                User usr = sesh.getUsr(); 
+                ArrayList<String> retObj = new ArrayList<String>();
+                retObj.add(usr.getUsername());
+                retObj.add(usr.getEmail());
+                retObj.add(sesh.getId());
+                return new ResponseEntity<>(retObj,HttpStatus.OK); 
+            }
+            else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }
