@@ -37,7 +37,7 @@ this.state=({username: this.state.username, email: e, password: this.state.passw
 handleRegistration()
 {
 
-        console.log("this.state");
+
 
 
 

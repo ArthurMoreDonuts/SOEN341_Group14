@@ -95,24 +95,31 @@ class UserController{
             String usr_eml = usr.getUsername();
 
             User user = usr_eml.contains("@") ? uRepo.findByEmail(usr_eml):uRepo.findByUsername(usr_eml);
+
             if (user == null){
+                System.out.println("user is null");
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            if (user.getPassword() == usr.getPassword()){
+
+            if (user.getPassword().equals(usr.getPassword())){ //fixed the comparison for passwords
+
                 ArrayList<String> retObj = new ArrayList<String>(); 
-                Session sesh = new Session(user);
-                sRepo.insert(sesh);
+              //  Session sesh = new Session(user);
+              //  sRepo.insert(sesh);
                 retObj.add(user.getUsername());
                 retObj.add(user.getEmail());
-                retObj.add(sesh.getId());
-                return new ResponseEntity<>(retObj,HttpStatus.OK); 
+                retObj.add(user.getId());
+
+                return new ResponseEntity<>(retObj,HttpStatus.ACCEPTED);
 
             }
             else{
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             }
 
         } catch (Exception e) {
+
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

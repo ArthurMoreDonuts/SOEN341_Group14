@@ -106,12 +106,26 @@ console.log(this.value.newAnswer);
 console.log(this.value.thisQuestionID);
 
 
-   var AnswerObject= {
-                   questionId: this.state.thisQuestionID,
-                   author: 'Anonymous',
-                   response: this.value.newAnswer,
+    const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
+    if (user){
+        var AnswerObject= {
+                           questionId: this.state.thisQuestionID,
+                           author: user.username,
+                           response: this.value.newAnswer,
 
-                   };
+                           };
+
+        }
+        else{
+
+        var AnswerObject= {
+                           questionId: this.state.thisQuestionID,
+                           author: 'Anonymous',
+                           response: this.value.newAnswer,
+
+                           };
+        }
+
         const http = new XMLHttpRequest();
 
 
