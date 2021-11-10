@@ -56,9 +56,13 @@ handleLogin(){
                          {
                              alert('Login Failed! ');
                          }
+                          if(this.status==406)
+                          {
+                             alert('Login Failed! ');
+                          }
 
                 }
-};
+}
 
 handleUsername(e)
 {
@@ -78,7 +82,8 @@ window.location.href = "/login";
     const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
     if (user) {
         return(
-        <div className="base-container"><label>{user.username} is loggged in </label>
+        <div className="base-container">
+            <label>{user.username} is loggged in </label>
             <button type="button" className="btn" onClick = {()=>this.clearLocalStorage()}> Sign Out! </button>
         </div>
         ) ;

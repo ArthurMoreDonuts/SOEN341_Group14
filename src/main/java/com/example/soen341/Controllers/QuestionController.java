@@ -183,6 +183,30 @@ class QuestionController{
         }
         
     }
-    
+
+
+    /**
+     *
+     * @param qid the id of the question that is being edited from uri
+     * @param aid the id of the answer that is being sent from uri
+     * @return
+     */
+    @PostMapping("/Questions/{id}")
+    public ResponseEntity<Question> selectedAnswerOfQuestion(@PathVariable String qid, @PathVariable String aid){
+
+        Optional<Question> QbyId = qRepo.findById(qid);
+        Question q;
+        if (QbyId.isPresent())
+            q= QbyId.get();
+        else
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        q.setAnswerSelected(true);
+        q.setSelectedAnswerID(aid);
+        qRepo.save(q);
+        return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+
+
 
 }

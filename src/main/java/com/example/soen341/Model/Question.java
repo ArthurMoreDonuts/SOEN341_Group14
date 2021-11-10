@@ -17,6 +17,8 @@ public class Question {
     private String description;
     private LocalDateTime created;
     private boolean answered;
+    private boolean answerSelected;
+    private String selectedAnswerID;
 
     public Question(String author, String title, String description) {
         this.author = author;
@@ -24,6 +26,9 @@ public class Question {
         this.description = description;
         this.created = LocalDateTime.now();
         answered = false;
+        answerSelected = false;
+        selectedAnswerID = "";
+
     }
 
 }
