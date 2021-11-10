@@ -4,11 +4,10 @@ import { Switch, Route, Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import { useState } from 'react';
 import QuestionTable from './QuestionTable';
+import AnswerTable from './AnswerTable';
 import ques from "../../mock-data.json";
-
-//npm i semantic-ui-react
 import {  Table } from "semantic-ui-react";
-
+import listOfQuestions from "../listOfQuestions";
 
 
 //import ReactMarkdown from 'react-markdown';
@@ -55,9 +54,10 @@ function ProfilePage() {
         </HeaderRow>
         <StyledHeader>My Questions</StyledHeader>
         <QuestionTable />
+        <listOfQuestions />
 
         <StyledHeader>My Answers</StyledHeader>
-        <QuestionTable />
+        <AnswerTable />
         
         
         

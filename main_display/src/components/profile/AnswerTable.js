@@ -4,6 +4,8 @@ import { Switch, Route, Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import { useState } from 'react';
 import ques from "../../mock-data.json";
+
+//import sematic-ui-react
 import {  Table } from "semantic-ui-react";
 import '../styling.css';
 
@@ -55,8 +57,16 @@ margin-top:20px;
 
 `;
           
+const MyAnswer = styled.div`
+display: inline-block;
+font-weight:bold;
+font-size: 1.0rem;
+float:right;
+margin-top:0px;
+`;
 
-class QuestionTable extends React.Component {
+
+class AnswerTable extends React.Component {
 //function QuestionTable() {
 render(){
   //const[ques, setQues] = useState(data);
@@ -69,12 +79,12 @@ render(){
         
         <Table.Body>
 
-  {ques.map(details => {
+  {ques.map(el => {
     return (
       <>
       
       <QuestionTitleArea>
-      <QuestionLink key={details.title}>
+      <QuestionLink key={el.title}>
       </QuestionLink>
 
       <QuestionRow>
@@ -89,7 +99,7 @@ render(){
           <Table.Header>
           <Table.Row verticalAlign = 'top'>
           <Table.Cell className="four-hundred-width">
-          {details.title}
+          {el.title}
           </Table.Cell>
           <br />
           <br />
@@ -98,14 +108,14 @@ render(){
           
           
           <Table.Row verticalAlign = 'top'>
-          {details.description}
+          {el.description}
           <br />
           <br />
           </Table.Row> 
        
 
           <Table.Row>
-        {details.answered}
+        {el.answered}
         </Table.Row>
         </Table.Row>
 
@@ -113,21 +123,41 @@ render(){
       <Table.Row>
       <Table.Cell>
         <DateTime>
-              Posted on {details.DateTime}
+              Posted on {el.DateTime}
         </DateTime>
         </Table.Cell>
         <Table.Cell verticalAlign = 'right'>
         <DateTime>
-       {details.author} 
+       {el.author} 
         </DateTime>
         </Table.Cell>
 
       </Table.Row>
       
     </Table.Footer>
-
+    
           </QuestionRow>
           </QuestionTitleArea>
+
+          
+          
+          <Container>
+          <QuestionRow>
+          <Table.Row>
+          
+          
+          
+          <MyAnswer>
+          
+          {el.author}:
+           This is the answer to my questions
+          {el.description}
+          </MyAnswer>
+          </Table.Row>
+   </QuestionRow>
+   </Container>
+   
+   
         </>
     );
   })}
@@ -137,11 +167,11 @@ render(){
           
 </Table>
 
-          
+        
           </>
     );
 
 }
 }
 
-export default QuestionTable
+export default AnswerTable
