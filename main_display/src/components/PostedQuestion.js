@@ -5,6 +5,9 @@ import { withRouter } from "react-router";
 import axios from 'axios';
 import PostButton from "./PostButton";
 import './styling.css';
+import './UserBestAnswer'
+import Checkbox from "./checkbox";
+import UserBestAnswer from "./UserBestAnswer";
 
 
 
@@ -68,30 +71,23 @@ populatingAnswers(){
 if (this.state.hasanswers==false){
        return (<h1>No answers</h1>);
        }
+       else{
        console.log("WE HAVE ANSWERS");
 return(
-
-
-<div>
-
+      <div>
            {this.state.answers.map(answer =>
-
-
                <div class = "answerBody" >
-
-
                       <p>{answer.response}</p>
                       <p>{answer.author}</p>
-
+                      <div class = "Checkbox" >                      
+                      if({answer.author} == {thisQuestionID}){
+                      <p>{UserBestAnswer}</p>  }
+                        </div>
                 </div>
-
-
             )}
     </div>
-
-
-
         )
+  }
 }
 
 handleNewAnswerBox(event){

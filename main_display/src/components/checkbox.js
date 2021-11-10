@@ -37,7 +37,7 @@ class Checkbox extends Component {
     }
 }
 
-Checkbox.PropTypes = {
+Checkbox.propTypes = {
     label: PropTypes.string.isRequired,
     handleCheckboxChange: PropTypes.func.isRequired,
 };
