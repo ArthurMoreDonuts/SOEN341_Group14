@@ -28,6 +28,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+
         this.created = LocalDateTime.now();
         upVotes = new ArrayList<Vote>();
         downVotes = new ArrayList<Vote>();

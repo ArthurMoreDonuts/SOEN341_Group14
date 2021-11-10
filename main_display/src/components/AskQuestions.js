@@ -66,14 +66,25 @@ const [questionBody, setQuestionBody] = useState('');
 var questionID;
 function postQuestion() {
 
+    const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
+    if (user){
+    var questionObject= {
+                       author: user.username,
+                       title: questionTitleInput,
+                       description: questionBody
+                       };
+
+    }
+    else{
+
+    var questionObject= {
+                       author: 'Anonymous',
+                       title: questionTitleInput,
+                       description: questionBody
+                       };
+    }
 
 
-
-   var questionObject= {
-                   author: 'Anonymous',
-                   title: questionTitleInput,
-                   description: questionBody
-                   };
         const http = new XMLHttpRequest();
 
 
