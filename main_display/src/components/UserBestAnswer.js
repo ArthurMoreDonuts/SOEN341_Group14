@@ -55,6 +55,9 @@ class UserBestAnswer extends Component {
             </div>
         );
     }
+    
 }
-
+    
 export default UserBestAnswer;
+
+//if author = same as user __allow to use button else button doesnt appear.
