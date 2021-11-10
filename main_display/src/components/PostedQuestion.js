@@ -18,6 +18,7 @@ state = {
     isempty:false,
     hasanswers:true,
     answerSelected:false,
+    selectedAnswerID:"",
     answers: []
 
 
@@ -41,7 +42,7 @@ componentDidMount() {
         questions.push( res.data);
         console.log("THE DATA:"+res.data.answered);
 
-         this.setState({questions: questions,thisQuestionID: id ,answerSelected: res.data.answered , questionAuthor: res.data.author , answerSelected: res.data.answerSelected});
+         this.setState({questions: questions,thisQuestionID: id ,answerSelected: res.data.answered , questionAuthor: res.data.author , answerSelected: res.data.answerSelected , selectedAnswerID : res.data.selectedAnswerID});
         console.log(this.state.questions);
       })
 
@@ -76,17 +77,21 @@ handleSelectAnswer(answerID)
 {
 //WHAT TO DO WHEN QUESTION POSTER SELECTS BEST ANSWER
     console.log("chose best answer clicked");
-    console.log("THIS QUESTIONS ID IS : "+this.state.thisQuestionID)
+
                          const http = new XMLHttpRequest();
                          http.open("POST","http://localhost:8080/api/Questions/"+this.state.thisQuestionID);
                          http.setRequestHeader("Content-Type" , "application/json");
-                         const toSend =
-                         {
-                            qid : this.state.thisQuestionID,
-                            aid : answerID
-                         }
 
-                         http.send(JSON.stringify(toSend));
+                        const toSend = {
+                            qid: this.state.thisQuestionID,
+                            aid: answerID
+                        }
+                        var qid ;
+                        qid = this.state.thisQuestionID;
+                        var aid ;
+                        aid = answerID;
+                        http.send(aid.toString());
+                        //http.send(JSON.stringify(toSend));
 
                          //http.send(JSON.stringify(questionObject));
                          http.onreadystatechange = function() {
@@ -120,28 +125,70 @@ if(user){ // only add upvote if we're logged in
     var upvotebutton;
     upvotebutton = <button onClick={()=>this.handleUpvote()}>Upvote</button> ;
 }
-    console.log("answer chosen already?" + this.answerSelected);
+    console.log("answer chosen already?" + this.state.answerSelected);
+
+
 if(user && user.username == this.state.questionAuthor && this.state.answerSelected==false){
 
+    return(
+    //MODIFY THIS TO ADD STUFF TO ANSWER
 
+               this.state.answers.map(answer =>
+
+                   <div class = "answerBody" >
+                          <p>{answer.response}</p>
+                          <p>{answer.author}</p>
+                            <div> Upvotes : {answer.upvotes} </div>
+                            {this.selectBestAnswerButton(answer.id)}
+                            {upvotebutton}
+                    </div>
+                )
+
+            )
 
 }
 
 
-return(
+
 //MODIFY THIS TO ADD STUFF TO ANSWER
-<div>
-           {this.state.answers.map(answer =>
-               <div class = "answerBody" >
-                      <p>{answer.response}</p>
-                      <p>{answer.author}</p>
-                        <div> Upvotes : {answer.upvotes} </div>
-                        {this.selectBestAnswerButton()}
-                        {upvotebutton}
-                </div>
-            )}
-    </div>
-        )
+return (
+
+            this.state.answers.map(answer => {
+                if(answer.id == this.state.selectedAnswerID){
+
+                console.log("YOOOO")
+
+                    return( //if the answer id does not match the selected answer id
+                                                            <div class = "answerBodySelectedByPoster" >
+                                                                                  <p>{answer.response}</p>
+                                                                                  <p>{answer.author}</p>
+                                                                                    <div> Upvotes : {answer.upvotes} </div>
+                                                                                    {upvotebutton}
+                                                                            </div>
+                                                   )
+                }
+
+
+               // answerBodySelectedByPoster
+                else {
+                  return( //if the answer id does not match the selected answer id
+                                        <div class = "answerBody" >
+                                                              <p>{answer.response}</p>
+                                                              <p>{answer.author}</p>
+                                                                <div> Upvotes : {answer.upvotes} </div>
+                                                                {upvotebutton}
+                                                        </div>
+                            )
+                  }
+
+
+                       }
+                    )
+
+
+)
+
+
 }
 
 handleNewAnswerBox(event){

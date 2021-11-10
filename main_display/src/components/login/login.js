@@ -62,7 +62,7 @@ handleLogin(){
                           }
 
                 }
-}
+};
 
 handleUsername(e)
 {

@@ -187,14 +187,14 @@ class QuestionController{
 
     /**
      *
-     * @param qid the id of the question that is being edited from uri
+     * @param id the id of the question that is being edited from uri
      * @param aid the id of the answer that is being sent from uri
      * @return
      */
     @PostMapping("/Questions/{id}")
-    public ResponseEntity<Question> selectedAnswerOfQuestion(@PathVariable String qid, @PathVariable String aid){
-
-        Optional<Question> QbyId = qRepo.findById(qid);
+    public ResponseEntity<Question> selectedAnswerOfQuestion(@PathVariable String id, @RequestBody String aid){
+        System.out.println("AID IS : "+aid);
+        Optional<Question> QbyId = qRepo.findById(id);
         Question q;
         if (QbyId.isPresent())
             q= QbyId.get();
