@@ -13,9 +13,11 @@ import './styling.css';
 export class postedQuestion extends React.Component{
 state = {
     thisQuestionID:"",
+    questionAuthor:"",
     questions: [],
     isempty:false,
     hasanswers:true,
+    answerSelected:false,
     answers: []
 
 
@@ -37,7 +39,9 @@ componentDidMount() {
       .then(res => {
         const questions = [];
         questions.push( res.data);
-         this.setState({questions: questions,thisQuestionID: id });
+        console.log("THE DATA:"+res.data.answered);
+
+         this.setState({questions: questions,thisQuestionID: id ,answerSelected: res.data.answered , questionAuthor: res.data.author , answerSelected: res.data.answerSelected});
         console.log(this.state.questions);
       })
 
@@ -63,34 +67,80 @@ componentDidMount() {
 
   }
 
-populatingAnswers(){
+handleUpvote()
+{
+//WHAT TO DO WHEN UPVOTE IS PUSHED
+    console.log("upvote clicked");
+}
+handleSelectAnswer(answerID)
+{
+//WHAT TO DO WHEN QUESTION POSTER SELECTS BEST ANSWER
+    console.log("chose best answer clicked");
+    console.log("THIS QUESTIONS ID IS : "+this.state.thisQuestionID)
+                         const http = new XMLHttpRequest();
+                         http.open("POST","http://localhost:8080/api/Questions/"+this.state.thisQuestionID);
+                         http.setRequestHeader("Content-Type" , "application/json");
+                         const toSend =
+                         {
+                            qid : this.state.thisQuestionID,
+                            aid : answerID
+                         }
 
+                         http.send(JSON.stringify(toSend));
+
+                         //http.send(JSON.stringify(questionObject));
+                         http.onreadystatechange = function() {
+                         console.log(this.responseText);
+                             if (this.readyState == 4 && this.status == 201) {
+
+                                alert('Best answer chosen! ');
+                                var userInfo;
+                                console.log(this.responseText);
+                                userInfo = JSON.parse(this.responseText);
+
+                                 }
+
+                        }
+}
+selectBestAnswerButton(answerID){
+return(
+
+ <button onClick={()=>this.handleSelectAnswer(answerID)}>THIS ANSWERS MY QUESTION</button>
+
+ )
+}
+populatingAnswers(){
+const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
 if (this.state.hasanswers==false){
        return (<h1>No answers</h1>);
        }
        console.log("WE HAVE ANSWERS");
+
+if(user){ // only add upvote if we're logged in
+    var upvotebutton;
+    upvotebutton = <button onClick={()=>this.handleUpvote()}>Upvote</button> ;
+}
+    console.log("answer chosen already?" + this.answerSelected);
+if(user && user.username == this.state.questionAuthor && this.state.answerSelected==false){
+
+
+
+}
+
+
 return(
-
-
+//MODIFY THIS TO ADD STUFF TO ANSWER
 <div>
-
            {this.state.answers.map(answer =>
-
-
                <div class = "answerBody" >
-
-
                       <p>{answer.response}</p>
                       <p>{answer.author}</p>
-
+                        <div> Upvotes : {answer.upvotes} </div>
+                        {this.selectBestAnswerButton()}
+                        {upvotebutton}
                 </div>
-
-
             )}
     </div>
-
-
-
         )
 }
 
