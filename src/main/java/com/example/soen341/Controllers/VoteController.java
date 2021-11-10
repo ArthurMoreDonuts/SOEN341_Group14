@@ -47,38 +47,46 @@ public class VoteController {
                 if (count>0){
                     ArrayList<Vote> votes = usr.getUpVotes();
                     votes.add(vote_);
-                    usr.setUpVotes(votes);
-                    votes = usr.getDownVotes();
-                    if (votes.contains(vote_)){
-                        votes.remove(vote_);
-                        usr.setDownVotes(votes);
-                    }
+                    usr.setUpVotes(votes);                  
                 }
                 else{
                     ArrayList<Vote> votes = usr.getDownVotes();
                     votes.add(vote_);
                     usr.setDownVotes(votes);
-                    votes = usr.getUpVotes();
-                    if (votes.contains(vote_)){
-                        votes.remove(vote_);
-                        usr.setUpVotes(votes);
-                    }
                 }
+                uRepo.save(usr);
                 return new ResponseEntity<>(vRepo.save(vote_),HttpStatus.OK);
             }
             else{
                 int count = vote.getCount();
                 int oldCount = vote_.getCount();
-                if (oldCount>count){
+                if (count>0){
                     ArrayList<Vote> votes = usr.getUpVotes();
                     votes.add(vote_);
+                    votes = usr.getDownVotes();
+                    oldCount++;
+                    if (votes.contains(vote_)){
+                        votes.remove(vote_);
+                        usr.setDownVotes(votes);
+                        oldCount++;
+                    }
+                    vote_.setCount(oldCount);
                 }
                 else{
                     ArrayList<Vote> votes = usr.getDownVotes();
                     votes.add(vote_);
+                    votes = usr.getUpVotes();
+                    oldCount --;
+                    if (votes.contains(vote_)){
+                        votes.remove(vote_);
+                        usr.setUpVotes(votes);
+                        oldCount--;
+                    }
+                    vote_.setCount(oldCount);
                 }
-                vote_.setCount(count);
+               // vote_.setCount(count);
                 vote_.setUsers(vote.getUsers());
+                uRepo.save(usr);
                 return new ResponseEntity<>(vRepo.save(vote_),HttpStatus.OK);
             }
         } catch (Exception e) {
