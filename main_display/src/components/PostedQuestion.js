@@ -68,10 +68,122 @@ componentDidMount() {
 
   }
 
-handleUpvote()
+httpGetFunc(answerID){
+                                   const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
+
+                                   const http = new XMLHttpRequest();
+                                    //GET
+                                   http.open("POST","http://localhost:8080/api/Answers/Vote");
+                                   http.setRequestHeader("Content-Type" , "application/json");
+                                   const toSend = {
+                                                          count: 0,
+                                                          users: user.username,
+                                                          answerId: answerID
+                                                   }
+
+                                   http.send(JSON.stringify(toSend));
+                                   http.onreadystatechange = function() {
+                                   console.log("returned get : "+this.responseText);
+                                   if (this.readyState == 4 && this.status == 201) {
+                                   console.log("GET RESPONSE : "+this.responseText);
+                                   return this.responseText;
+                                        }
+                                    }
+}
+handleUpvote(answerID , voteObjectUsers)
 {
+const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
 //WHAT TO DO WHEN UPVOTE IS PUSHED
     console.log("upvote clicked");
+
+
+                             console.log("ANSWER ID: "+answerID)
+
+
+                            const http = new XMLHttpRequest();
+                             //POST
+                             http.open("PUT","http://localhost:8080/api/Answers/Vote/");
+                             http.setRequestHeader("Content-Type" , "application/json");
+
+                            var toSend = {
+                                count: 1,
+                                users: user.username,
+                                answerId: answerID
+                                }
+
+
+                             var questionID = this.state.thisQuestionID
+                            console.log("STRINGIFY : "+JSON.stringify(toSend))
+                            if(!voteObjectUsers.includes(user.username)){
+
+                            http.send(JSON.stringify(toSend));
+
+                            }
+                            //http.send(JSON.stringify(toSend));
+
+                             //http.send(JSON.stringify(questionObject));
+                             http.onreadystatechange = function() {
+                             console.log("returned : "+this.responseText);
+                                 if (this.readyState == 4 && this.status == 200) {
+
+                                    alert('voted!! ');
+                                   // var userInfo;
+                                    console.log(this.responseText);
+                                    //userInfo = JSON.parse(this.responseText);
+                                    window.location.href = "/Questions/"+questionID;
+
+                                     }
+
+                            }
+
+
+}
+
+handleDownvote(answerID , voteObjectUsers)
+{
+const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
+//WHAT TO DO WHEN UPVOTE IS PUSHED
+    console.log("upvote clicked");
+
+
+                             console.log("ANSWER ID: "+answerID)
+                            var upOrDownToggle;
+                            upOrDownToggle= this.httpGetFunc(answerID);
+
+                            const http = new XMLHttpRequest();
+                             //POST
+                             http.open("PUT","http://localhost:8080/api/Answers/Vote/");
+                             http.setRequestHeader("Content-Type" , "application/json");
+
+                            var toSend = {
+                                count: -1,
+                                users: user.username,
+                                answerId: answerID
+                                }
+
+
+                            var questionID = this.state.thisQuestionID
+
+                            console.log("STRINGIFY : "+JSON.stringify(toSend))
+
+
+                            http.send(JSON.stringify(toSend));
+
+                            //http.send(JSON.stringify(toSend));
+
+                             //http.send(JSON.stringify(questionObject));
+                             http.onreadystatechange = function() {
+                             console.log("returned : "+this.responseText);
+                                 if (this.readyState == 4 && this.status == 200) {
+
+                                    alert('voted!! ');
+                                   // var userInfo;
+                                    console.log(this.responseText);
+                                    //userInfo = JSON.parse(this.responseText);
+                                  window.location.href = "/Questions/"+questionID;
+                                     }
+
+                            }
 }
 handleSelectAnswer(answerID)
 {
@@ -92,17 +204,17 @@ handleSelectAnswer(answerID)
                         aid = answerID;
                         http.send(aid.toString());
                         //http.send(JSON.stringify(toSend));
-
+                        var questionID = this.state.thisQuestionID
                          //http.send(JSON.stringify(questionObject));
                          http.onreadystatechange = function() {
                          console.log(this.responseText);
-                             if (this.readyState == 4 && this.status == 201) {
+                             if (this.readyState == 4 && this.status == 200) {
 
                                 alert('Best answer chosen! ');
-                                var userInfo;
+                               // var userInfo;
                                 console.log(this.responseText);
-                                userInfo = JSON.parse(this.responseText);
-
+                                //userInfo = JSON.parse(this.responseText);
+                                window.location.href = "/Questions/"+questionID;
                                  }
 
                         }
@@ -114,6 +226,24 @@ return(
 
  )
 }
+upvoteButton(answerID, voteObjectUsers){
+
+const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
+console.log(voteObjectUsers);
+if(voteObjectUsers.includes(user.username)){
+    return(
+    <button onClick={()=>this.handleDownvote(answerID,voteObjectUsers)}>DownVote</button>
+    )
+}
+if(user){ // only add upvote if we're logged in
+    return(
+     <button onClick={()=>this.handleUpvote(answerID,voteObjectUsers)}>Upvote</button>
+     )
+ }
+
+//GET THE VOTE for this answer for the specific user
+
+}
 populatingAnswers(){
 const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
 if (this.state.hasanswers==false){
@@ -121,10 +251,7 @@ if (this.state.hasanswers==false){
        }
        console.log("WE HAVE ANSWERS");
 
-if(user){ // only add upvote if we're logged in
-    var upvotebutton;
-    upvotebutton = <button onClick={()=>this.handleUpvote()}>Upvote</button> ;
-}
+
     console.log("answer chosen already?" + this.state.answerSelected);
 
 
@@ -138,9 +265,9 @@ if(user && user.username == this.state.questionAuthor && this.state.answerSelect
                    <div class = "answerBody" >
                           <p>{answer.response}</p>
                           <p>{answer.author}</p>
-                            <div> Upvotes : {answer.upvotes} </div>
+                            <div> Upvotes : {answer.voteObject.count} </div>
                             {this.selectBestAnswerButton(answer.id)}
-                            {upvotebutton}
+                            {this.upvoteButton(answer.id,answer.voteObject.usersList)}
                     </div>
                 )
 
@@ -162,8 +289,8 @@ return (
                                                             <div class = "answerBodySelectedByPoster" >
                                                                                   <p>{answer.response}</p>
                                                                                   <p>{answer.author}</p>
-                                                                                    <div> Upvotes : {answer.upvotes} </div>
-                                                                                    {upvotebutton}
+                                                                                    <div> Upvotes : {answer.voteObject.count} </div>
+                                                                                    {this.upvoteButton(answer.id, answer.voteObject.usersList)}
                                                                             </div>
                                                    )
                 }
@@ -175,8 +302,8 @@ return (
                                         <div class = "answerBody" >
                                                               <p>{answer.response}</p>
                                                               <p>{answer.author}</p>
-                                                                <div> Upvotes : {answer.upvotes} </div>
-                                                                {upvotebutton}
+                                                                <div> Upvotes : {answer.voteObject.count} </div>
+                                                                {this.upvoteButton(answer.id,answer.voteObject.usersList)}
                                                         </div>
                             )
                   }

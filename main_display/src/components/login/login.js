@@ -54,11 +54,11 @@ handleLogin(){
                          }
                          if(this.status==500)
                          {
-                             alert('Login Failed! ');
+                             alert('Login Failed!(500) ');
                          }
                           if(this.status==406)
                           {
-                             alert('Login Failed! ');
+                             alert('Login Failed!(406) ');
                           }
 
                 }

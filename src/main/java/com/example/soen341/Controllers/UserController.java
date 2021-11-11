@@ -106,8 +106,8 @@ class UserController{
             if (user.getPassword().equals(usr.getPassword())){ //fixed the comparison for passwords
 
                 ArrayList<String> retObj = new ArrayList<String>(); 
-                Session sesh = new Session(user);
-                sRepo.insert(sesh);
+               // Session sesh = new Session(user);
+               // sRepo.insert(sesh);
                 retObj.add(user.getUsername());
                 retObj.add(user.getEmail());
                 retObj.add(user.getId());
