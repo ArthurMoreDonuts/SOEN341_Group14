@@ -15,11 +15,15 @@ public class Answer {
     private String author;
     private String response;
     private LocalDateTime created;
+    private Vote voteObject;
 
     public Answer(String questionId, String author, String response) {
         this.questionId = questionId;
         this.author = author;
         this.response = response;
         this.created = LocalDateTime.now();
+        this.voteObject = new Vote(questionId,0,"");
+
+
     }
 }

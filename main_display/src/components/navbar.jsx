@@ -6,6 +6,7 @@ import { Login } from './login';
 import { Register } from './login';
 import listOfQuestions from './listOfQuestions';
 import postedQuestion from './PostedQuestion';
+import ProfilePage from "./profile/ProfilePage";
 class NavBar extends Component {
     render() { 
 
@@ -19,9 +20,11 @@ class NavBar extends Component {
                         <button class="btn btn-outline-success me-2" type="button">
                         <Link to={"/MainPage"} className="nav-link">
                             Main Page</Link></button>
-                        <button class="btn btn-outline-success me-2" type="button">Profile</button>
-
-
+                        <button class="btn btn-outline-success me-2" type="button">
+                        <Link to={"/Profile"} className="nav-link">
+                              Profile
+                            </Link>
+                            </button>
                         <button class="btn btn-outline-success me-2" type="button">
                             <Link to={"/Questions"} className="nav-link">
                                     All Questions
@@ -51,6 +54,7 @@ class NavBar extends Component {
             <Route exact path="/Login" component={Login} />
             <Route exact path="/Register" component={Register} />
             <Route exact path="/Questions" component={listOfQuestions} />
+            <Route exact path="/Profile" component={ProfilePage} />
             <Route path="/Questions/:id" component = {postedQuestion}/>
           </Switch>
         </div>

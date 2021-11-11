@@ -1,21 +1,21 @@
 package com.example.soen341.Controllers;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
+import com.example.soen341.Model.Answer;
+import com.example.soen341.Model.Question;
 import com.example.soen341.Model.User;
 import com.example.soen341.Model.Vote;
+import com.example.soen341.Repository.AnswerRepository;
 import com.example.soen341.Repository.UserRepository;
 import com.example.soen341.Repository.VoteRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @CrossOrigin(origins = {"http://localhost:3000","http://localhost:8081"})
@@ -30,6 +30,9 @@ public class VoteController {
     @Autowired
     UserRepository uRepo;
 
+    @Autowired
+    AnswerRepository aRepo;
+
     /**
      * 
      * @param vote the new vote object Assumes if the vote is toggled the vote counter
@@ -41,44 +44,105 @@ public class VoteController {
         try {
             Vote vote_ = vRepo.findByAnswerId(vote.getAnswerId());
             User usr = uRepo.findByUsername(vote.getUsers());
+            Optional<Answer> ansr = aRepo.findById(vote.getAnswerId());
+
             if (vote_ == null){
                 int count = vote.getCount();
                 vote_ = new Vote(vote.getAnswerId(), count, vote.getUsers());
+
                 if (count>0){
+                    List<String> newUsers;
+                    newUsers = vote_.getUsersList();
+                    newUsers.add(usr.getUsername());
+                    vote_.setUsersList(newUsers);
+
                     ArrayList<Vote> votes = usr.getUpVotes();
                     votes.add(vote_);
                     usr.setUpVotes(votes);
-                    votes = usr.getDownVotes();
-                    if (votes.contains(vote_)){
-                        votes.remove(vote_);
-                        usr.setDownVotes(votes);
-                    }
+
+
+
                 }
                 else{
+                    List<String> newUsers;
+                    newUsers = vote_.getUsersList();
+                    newUsers.remove(usr.getUsername());
+                    vote_.setUsersList(newUsers);
+
                     ArrayList<Vote> votes = usr.getDownVotes();
                     votes.add(vote_);
                     usr.setDownVotes(votes);
-                    votes = usr.getUpVotes();
-                    if (votes.contains(vote_)){
-                        votes.remove(vote_);
-                        usr.setUpVotes(votes);
-                    }
                 }
+                uRepo.save(usr);
+
+                //ANSWER STUFF
+                Optional<Answer> AbyID = aRepo.findById(vote.getAnswerId());
+                Answer answer;
+                if (AbyID.isPresent())
+                    answer= AbyID.get();
+                else
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                answer.setVoteObject(vote_);
+                aRepo.save(answer);
+
+                //END ANSWER STUFF
+
+
                 return new ResponseEntity<>(vRepo.save(vote_),HttpStatus.OK);
             }
             else{
                 int count = vote.getCount();
                 int oldCount = vote_.getCount();
-                if (oldCount>count){
+
+                if (count>0){
+                    List<String> newUsers;
+                    newUsers = vote_.getUsersList();
+                    newUsers.add(usr.getUsername());
+                    vote_.setUsersList(newUsers);
+
                     ArrayList<Vote> votes = usr.getUpVotes();
                     votes.add(vote_);
+                    votes = usr.getDownVotes();
+                    oldCount++;
+                    if (votes.contains(vote_)){
+                        votes.remove(vote_);
+                        usr.setDownVotes(votes);
+                        oldCount++;
+                    }
+                    vote_.setCount(oldCount);
                 }
                 else{
+                    List<String> newUsers;
+                    newUsers = vote_.getUsersList();
+                    newUsers.remove(usr.getUsername());
+                    vote_.setUsersList(newUsers);
+
                     ArrayList<Vote> votes = usr.getDownVotes();
                     votes.add(vote_);
+                    votes = usr.getUpVotes();
+                    oldCount --;
+                    if (votes.contains(vote_)){
+                        votes.remove(vote_);
+                        usr.setUpVotes(votes);
+                        oldCount--;
+                    }
+                    vote_.setCount(oldCount);
                 }
-                vote_.setCount(count);
+               // vote_.setCount(count);
                 vote_.setUsers(vote.getUsers());
+                uRepo.save(usr);
+
+                //ANSWER STUFF
+                Optional<Answer> AbyID = aRepo.findById(vote.getAnswerId());
+                Answer answer;
+                if (AbyID.isPresent())
+                    answer= AbyID.get();
+                else
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                answer.setVoteObject(vote_);
+                aRepo.save(answer);
+
+                //END ANSWER STUFF
                 return new ResponseEntity<>(vRepo.save(vote_),HttpStatus.OK);
             }
         } catch (Exception e) {
@@ -88,13 +152,14 @@ public class VoteController {
 
     /**
      * 
-     * @param username the user who is viewing the answer 
+     *
      * @param vote the current vote status of the answer 
      * @return if the user has either upvoted downvoted or not voted or server error.
      */
-    @GetMapping("/Answers/Vote")
-    public ResponseEntity<String> UpOrDown(String username,@RequestBody Vote vote){
+    @PostMapping("/Answers/Vote")
+    public ResponseEntity<String> UpOrDown(@RequestBody Vote vote){
         try{
+            String username = vote.getUsers();
             User usr = uRepo.findByUsername(username);
             ArrayList<Vote> upvotes = usr.getUpVotes();
             ArrayList<Vote> downvotes = usr.getDownVotes();
