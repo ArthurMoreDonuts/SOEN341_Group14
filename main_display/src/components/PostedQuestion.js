@@ -230,12 +230,14 @@ upvoteButton(answerID, voteObjectUsers){
 
 const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
 console.log(voteObjectUsers);
+
+if(user){ // only add upvote if we're logged in
+
 if(voteObjectUsers.includes(user.username)){
     return(
     <button onClick={()=>this.handleDownvote(answerID,voteObjectUsers)}>DownVote</button>
     )
 }
-if(user){ // only add upvote if we're logged in
     return(
      <button onClick={()=>this.handleUpvote(answerID,voteObjectUsers)}>Upvote</button>
      )
