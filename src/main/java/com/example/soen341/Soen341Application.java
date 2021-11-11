@@ -22,49 +22,4 @@ public class Soen341Application {
 		SpringApplication.run(Soen341Application.class, args);
 	}
 
-	// Entering hardcoded data to the database
-
-	@Bean
-	CommandLineRunner runner(UserRepository repository){
-		return args ->{
-			User user = new User("Youngest Oldman","ahmed_hani_dawoud@hotmail.com","123456789");
-		//	repository.insert(user);
-		};
-		}
-
-
-	// Entering hardcoded data to the database
-	Question question = new Question("Youngest Oldman", "Can we have more than one document type in a collection?", "As written in the title above");
-
-	@Bean
-	CommandLineRunner runner2(QuestionRepository repository){
-		return args ->{
-			//question.setAnswered(true);
-			repository.insert(question);
-			System.out.println(repository.findByTitleContaining("collection").size());
-
-		};
-	}
-	// Entering hardcoded data to the database
-	Answer answer;
-
-	@Bean
-	CommandLineRunner runner3(AnswerRepository repository){
-		return args ->{
-
-			answer = new Answer(question.getId(), "Youngest Oldman", "Google it bro");
-			repository.insert(answer);
-           // repository.findAnswerByQuestionId(question.getId()).ifPresentOrElse(answer1 -> {System.out.println(answer1 + " Already exist"); }, () -> {});
-		};
-	}
-
-	// Entering hardcoded data to the database
-	@Bean
-	CommandLineRunner runner4(VoteRepository repository){
-		return args ->{
-			Vote vote = new Vote(answer.getId(), 0,"");
-			repository.insert(vote);
-
-		};
-	}
 }
