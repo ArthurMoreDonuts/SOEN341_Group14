@@ -39,21 +39,24 @@ class QuestionTable extends React.Component {
 
 componentDidMount() {
 const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
+ if(user != null)
+        {
+             axios.get('http://localhost:8080/api/Questions/auth/' +user.username)
+                .then(res => {
+                  const questions = res.data;
+                  this.setState({questions: questions });
+                  console.log(user.username);
+                  console.log(this.state.questions);
+                  if (this.state.questions.length != 0){
+                  this.setState({ isempty: false });
+                  }
+                })
+                  .catch(err => {
+                          console.log(err);
+                          this.setState({ isempty: true });
+                         });
+        }
 
-  axios.get('http://localhost:8080/api/Questions/auth/' +user.username)
-    .then(res => {
-      const questions = res.data;
-      this.setState({questions: questions });
-      console.log(user.username);
-      console.log(this.state.questions);
-      if (this.state.questions.length != 0){
-      this.setState({ isempty: false });
-      }
-    })
-      .catch(err => {
-              console.log(err);
-              this.setState({ isempty: true });
-             });
 }
 
 //function QuestionTable() {

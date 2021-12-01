@@ -45,9 +45,9 @@ function ProfilePage() {
         
         <HeaderRow>
         
-        {user.username}
+        {user ?  user.username : "Please Sign in"}
         <button class="btn btn-outline-success me-2" type="button">
-                        <Link to={"/Login"} className="nav-link">Logout
+                        <Link to={"/Login"} className="nav-link">{user ? "Logout" : "Login"}
                         </Link></button>
 
         </HeaderRow>

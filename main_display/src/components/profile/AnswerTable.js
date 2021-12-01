@@ -48,21 +48,24 @@ class AnswerTable extends React.Component {
 
 componentDidMount() {
 const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
+ if(user != null)
+        {
+            axios.get('http://localhost:8080/api/Answers/auth/'+ user.username)
+                .then(res => {
+                  const answers = res.data;
+                  this.setState({answers: answers });
+                  console.log(this.state.answers);
+                  if (this.state.answers.length != 0){
 
-axios.get('http://localhost:8080/api/Answers/auth/'+ user.username)
-    .then(res => {
-      const answers = res.data;
-      this.setState({answers: answers });
-      console.log(this.state.answers);
-      if (this.state.answers.length != 0){
+                  this.setState({ hasanswers: true });
+                  }
+                })
+                  .catch(err => {
+                          console.log(err);
+                          this.setState({ hasanswers: false });
+                         });
+        }
 
-      this.setState({ hasanswers: true });
-      }
-    })
-      .catch(err => {
-              console.log(err);
-              this.setState({ hasanswers: false });
-             });
 
              
 }

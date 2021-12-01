@@ -123,6 +123,7 @@ class CommentController{
                 Comment.getAuthor(),
                 Comment.getResponse()
                ));
+            System.out.println("Post Comment");
             
             Optional<Answer> aById = answerRepo.findById(CommentedAnswer.getAnswerId());
             

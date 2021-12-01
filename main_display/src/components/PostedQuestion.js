@@ -32,7 +32,8 @@ state = {
 }
 value = {
        thisQuestionID:"",
-       newAnswer:""
+       newAnswer:"",
+       newComment:""
 
 }
 
@@ -194,6 +195,57 @@ const user = JSON.parse(localStorage.getItem('user')); //how to get the username
 
                             }
 }
+
+handlePostNewComment(answerID,commentAuthor,commentBody)
+{
+    const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
+    //WHAT TO DO WHEN UPVOTE IS PUSHED
+        console.log("comment clicked");
+
+
+                                console.log("ANSWER ID for comment: "+answerID)
+
+
+                                const http = new XMLHttpRequest();
+                                 //POST
+                                 http.open("POST","http://localhost:8080/api/Answers/Comments");
+                                 http.setRequestHeader("Content-Type" , "application/json");
+
+                                var toSend = {
+                                    answerId: answerID,
+                                    author: commentAuthor,
+                                    response: commentBody
+                                    }
+
+
+                                 var questionID = this.state.thisQuestionID
+                                console.log("STRINGIFY : "+JSON.stringify(toSend))
+
+
+                                http.send(JSON.stringify(toSend));
+
+
+                                //http.send(JSON.stringify(toSend));
+
+                                 //http.send(JSON.stringify(questionObject));
+                                 http.onreadystatechange = function() {
+                                 console.log("returned : "+this.responseText);
+                                     if (this.readyState == 4 && this.status == 201) {
+
+                                        alert('comment posted!! ');
+                                       // var userInfo;
+                                        console.log(this.responseText);
+                                        //userInfo = JSON.parse(this.responseText);
+                                        window.location.href = "/Questions/"+questionID;
+
+                                         }
+
+                                }
+
+
+
+}
+
 handleSelectAnswer(answerID)
 {
 //WHAT TO DO WHEN QUESTION POSTER SELECTS BEST ANSWER
@@ -255,6 +307,41 @@ if(voteObjectUsers.includes(user.username)){
 //GET THE VOTE for this answer for the specific user
 
 }
+populateComments(answerObjs)
+{
+console.log("POPULATING COMMENT");
+console.log(answerObjs);
+
+    if(answerObjs.commentsList!=null)
+    {
+
+
+        return(answerObjs.commentsList.map(commentObj => {
+
+                           return(
+                                       <div class = "answerBody" >
+                                       <div class = "AuthorArea">
+                                             {commentObj.author}:
+                                        </div>
+                                       <div class = "AnswerDescription">
+                                            {commentObj.response}
+                                       </div>
+                                       </div>
+
+                                   )
+
+
+                        }))
+
+
+   }
+   else
+   {
+    return(<div class = "AnswerDescription"> no comments </div>)
+
+   }
+
+}
 populatingAnswers(){
 const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
 
@@ -286,30 +373,39 @@ if(user && user.username == this.state.questionAuthor && this.state.answerSelect
                                         {answer.voteObject.count} Comments
                                         <p>{answer.voteObject.count} Upvotes </p>
                                         <div>
+                                        {this.selectBestAnswerButton(answer.id)}
                                         {this.upvoteButton(answer.id,answer.voteObject.usersList)}
                                         </div>
                                         </div>
 
                             
 
-                                                       
+
 <div class = "AnswerDescription">                                                            
 <React.Fragment>
 <div> 
 <h6>Comment: </h6>
+
 <form onSubmit={console.log("form")}>
     <textarea
             className="CommentBox"
              id="exampleFormControlTextarea1"
-             onChange={e =>  this.handleNewAnswerBox(e.target.value)}
+             onChange={e =>  this.handleNewCommentBox(e.target.value)}
 
 
 
        />
+
     <div class = "Stats">
-    <PostButton type='button' onClick = {()=>this.handlePostNewAnswer()} >
+    <PostButton type='button' onClick = {()=>this.handlePostNewComment(answer.id,user.username,this.value.newComment )} >
     <s1>Comment</s1>
     </PostButton>
+
+    {this.populateComments(answer)}
+
+
+
+
     </div>
 
 
@@ -317,7 +413,11 @@ if(user && user.username == this.state.questionAuthor && this.state.answerSelect
 
 </div>
 </React.Fragment>
-</div>                           
+
+
+
+</div>
+
                     </div>
 
                     
@@ -338,22 +438,22 @@ return (
             this.state.answers.map(answer => {
                 if(answer.id == this.state.selectedAnswerID){
 
-                console.log("YOOOO")
+
 
                     return( //if the answer id does not match the selected answer id
                                                             <div class = "answerBodySelectedByPoster" >
-                                                                                <div class = "AuthorArea">
-                                                              {answer.author}:
-                                                              </div>
-                                        <div class = "AnswerDescription">
-                                                              {answer.response}
-                                                              </div>
+                                                                 <div class = "AuthorArea">
+                                                                        {answer.author}:
+                                                                  </div>
+                                                                   <div class = "AnswerDescription">
+                                                                        {answer.response}
+                                                                  </div>
                                                               
                                                               <div class = "Stats">
-                                                              {answer.voteObject.count} Comments
-                                                              <p>{answer.voteObject.count} Upvotes </p>
+                                                                     {answer.voteObject.count} Comments
+                                                                    <p>{answer.voteObject.count} Upvotes </p>
                                                               <div>
-                                                              {this.upvoteButton(answer.id,answer.voteObject.usersList)}
+                                                                    {this.upvoteButton(answer.id,answer.voteObject.usersList)}
                                                                 </div>
                                                               </div>
 
@@ -370,22 +470,24 @@ return (
     <textarea
             className="CommentBox"
              id="exampleFormControlTextarea1"
-             onChange={e =>  this.handleNewAnswerBox(e.target.value)}
+             onChange={e =>  this.handleNewCommentBox(e.target.value)}
 
 
 
        />
     <div class = "Stats">
-    <PostButton type='button' onClick = {()=>this.handlePostNewAnswer()} >
+    <PostButton type='button' onClick = {()=>this.handlePostNewComment(answer.id,user.username,this.value.newComment )} >
     <s1>Comment</s1>
     </PostButton>
     </div>
 
 
         </form>
-
+{this.populateComments(answer)}
 </div>
 </React.Fragment>
+
+
 </div> 
 </div>
 
@@ -411,7 +513,7 @@ return (
                                                               {this.upvoteButton(answer.id,answer.voteObject.usersList)}
                                                                 </div>
                                                               </div> 
-                                                              
+
                                                                 
                                                                 
                                                                 
@@ -426,13 +528,13 @@ return (
     <textarea
             className="CommentBox"
              id="exampleFormControlTextarea1"
-             onChange={e =>  this.handleNewAnswerBox(e.target.value)}
+             onChange={e =>  this.handleNewCommentBox(e.target.value)}
 
 
 
        />
     <div class = "Stats">
-    <PostButton type='button' onClick = {()=>this.handlePostNewAnswer()} >
+    <PostButton type='button' onClick = {()=>this.handlePostNewComment(answer.id,user.username,this.value.newComment )} >
     <s1>Comment</s1>
     </PostButton>
     </div>
@@ -442,11 +544,22 @@ return (
 
 </div>
 </React.Fragment>
-</div> 
+
+
+ {this.populateComments(answer)}
+
+
+
+
+
+
+</div>
 </div>
                                                         
         )
       }
+
+
     }                  
   )
 )
@@ -455,6 +568,10 @@ return (
 
 handleNewAnswerBox(event){
 this.value={newAnswer: event , thisQuestionID: this.value.thisQuestionID };
+
+}
+handleNewCommentBox(event){
+this.value={newComment: event , thisQuestionID: this.value.thisQuestionID };
 
 }
 
@@ -579,7 +696,7 @@ render()
 </React.Fragment>
             
             <div>
-            <h2># of Answers</h2>
+            <h2># of Answers : {this.state.answers.length} </h2>
             {this.populatingAnswers()}
             
             
