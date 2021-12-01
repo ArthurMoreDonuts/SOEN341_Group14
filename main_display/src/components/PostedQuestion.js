@@ -370,8 +370,8 @@ if(user && user.username == this.state.questionAuthor && this.state.answerSelect
                                         </div>
                                                               
                                         <div class = "Stats">
-                                        {answer.voteObject.count} Comments
-                                        <p>{answer.voteObject.count} Upvotes </p>
+                                        {answer.comments} Comments
+                                        <p>{answer.comments} Upvotes </p>
                                         <div>
                                         {this.selectBestAnswerButton(answer.id)}
                                         {this.upvoteButton(answer.id,answer.voteObject.usersList)}
@@ -450,7 +450,7 @@ return (
                                                                   </div>
                                                               
                                                               <div class = "Stats">
-                                                                     {answer.voteObject.count} Comments
+                                                                     {answer.comments} Comments
                                                                     <p>{answer.voteObject.count} Upvotes </p>
                                                               <div>
                                                                     {this.upvoteButton(answer.id,answer.voteObject.usersList)}
@@ -507,7 +507,7 @@ return (
                                                               </div>
                                                               
                                                               <div class = "Stats">
-                                                              {answer.voteObject.count} Comments
+                                                              {answer.comments} Comments
                                                               <p>{answer.voteObject.count} Upvotes </p>
                                                               <div>
                                                               {this.upvoteButton(answer.id,answer.voteObject.usersList)}
