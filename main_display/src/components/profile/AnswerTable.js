@@ -5,57 +5,27 @@ import axios from "axios";
 import { useState } from 'react';
 
 
+import DataService from "../../services/question.service";
+import { useHistory, useParams } from 'react-router-dom'
+import { withRouter } from "react-router";
+
+import PostButton from "../PostButton";
+import PostedQuestion from "../PostedQuestion";
+
+
+
 //import sematic-ui-react
 import {  Table } from "semantic-ui-react";
 import '../styling.css';
 
 
 const Container = styled.div`
-padding:0px 20px;
-`;
-
-const QuestionRow = styled.div`
-background-color: #708090;
-padding: 15px 10px ;
-display: block;
-border: 1px solid ;
-margin-bottom: 2px;
+padding:10px 10px;
+margin-top: 10px;
 `;
 
 
-const QuestionStat = styled.div`
-text-align: center;
-font-size: 1.2 rem;
-span{
-  font-size: .8rem;
-  display: block;
-  font-weight: 500;
-  margin-top: 4px;
-  padding: 5px;
-}
-`;
 
-const QuestionTitleArea = styled.div`
-padding: 0px 20px;
-
-`;
-
-const QuestionLink = styled.a`
-text-decoration: none;
-font-size: 1.1rem;
-color: #00008B;
-
-`;
-
-const DateTime = styled.div`
-display: inline-block;
-color: #C0C0C0;
-font-size: 1.0rem;
-float:right;
-margin-top:20px;
-
-
-`;
           
 const MyAnswer = styled.div`
 display: inline-block;
@@ -74,6 +44,8 @@ class AnswerTable extends React.Component {
 
   }
 
+  
+
 componentDidMount() {
 const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
 
@@ -91,6 +63,8 @@ axios.get('http://localhost:8080/api/Answers/auth/'+ user.username)
               console.log(err);
               this.setState({ hasanswers: false });
              });
+
+             
 }
 //function QuestionTable() {
 render(){
@@ -102,109 +76,54 @@ render(){
   
     
     
-
+    return(
+    
+        
+        
+      <Container>
       
   
-    return(
+      {this.state.answers.map(el => {
+    return (
         <>
         
-
-        <Table celled structured>
-        
-        <Table.Body>
-
-  {this.state.answers.map(el => {
-    return (
-      <>
-      
-      <QuestionTitleArea>
-      <QuestionLink key="Title">
-      </QuestionLink>
-
-      <QuestionRow>
-      <Table.Row>
-
-      <Table.Cell textAlign = 'left'>
-      <QuestionStat>0<span>votes</span></QuestionStat>
-      
-          <QuestionStat>0<span>comments</span></QuestionStat>
-          </Table.Cell>
-          
-          <Table.Header>
-          <Table.Row verticalAlign = 'top'>
-          <Table.Cell className="four-hundred-width">
-            Response :           {el.response}
-
-          </Table.Cell>
-          <br />
-          <br />
-          </Table.Row>
-          </Table.Header>
-          
-          
-          <Table.Row verticalAlign = 'top'>
-          <br />
-          <br />
-          <a href={"/Questions/"+el.questionId}> View question </a>
-          <br />
-          <br />
-          </Table.Row> 
-       
-
-        
-        </Table.Row>
-
-    <Table.Footer>
-      <Table.Row>
-      <Table.Cell>
-        <DateTime>
-              Posted on {el.created}
-        </DateTime>
-        </Table.Cell>
-        <Table.Cell verticalAlign = 'right'>
-        <DateTime>
-    
-        </DateTime>
-        </Table.Cell>
-
-      </Table.Row>
-      
-    </Table.Footer>
-    
-          </QuestionRow>
-          </QuestionTitleArea>
-
-          
-          
-          <Container>
-          <QuestionRow>
-          <Table.Row>
-          
-          
-          
-          <MyAnswer>
-          
-          {el.author}:
-           This is the answer to my questions
-          {el.description}
-          </MyAnswer>
-          </Table.Row>
-   </QuestionRow>
-   </Container>
-   
-   
-        </>
-    );
-  })}
-
+        <div class = "questBod">
+             
   
-          </Table.Body>
-          
-</Table>
-
+        <div className="AnswerDescription">
+           {el.response}
+           </div>
         
+           
+                        
+              
+            <div class = "Stats">
+            <p>0 Comments </p>
+            <p>0 Votes</p>
+            </div>
+            <div class = "QAuthorArea"> 
+                        Posted by: {el.author}</div>
+  
+                        <div class = "Stats">
+                        Posted on {el.created}
+                        </div>
+                        <a href={"/Questions/"+el.questionId}> View question </a>
+            </div>
           </>
-    );
+      );
+    })}
+    
+    </Container>
+            
+  
+  
+  
+            
+            
+      );
+      
+  
+   
 
 }
 }

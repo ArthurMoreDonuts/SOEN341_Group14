@@ -3,22 +3,18 @@ import styled from 'styled-components';
 import { Switch, Route, Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import { useState } from 'react';
+import DataService from "../../services/question.service";
+import { useHistory, useParams } from 'react-router-dom'
 
 import {  Table } from "semantic-ui-react";
 import '../styling.css';
 
 
 const Container = styled.div`
-padding:0px 20px;
+padding:10px 10px;
+margin-top: 10px;
 `;
 
-const QuestionRow = styled.div`
-background-color: #708090;
-padding: 15px 10px ;
-display: block;
-border: 1px solid ;
-margin-bottom: 2px;
-`;
 
 
 const QuestionStat = styled.div`
@@ -33,28 +29,7 @@ span{
 }
 `;
 
-const QuestionTitleArea = styled.div`
-padding: 0px 20px;
-
-`;
-
-const QuestionLink = styled.a`
-text-decoration: none;
-font-size: 1.1rem;
-color: #00008B;
-
-`;
-
-const DateTime = styled.div`
-display: inline-block;
-color: #C0C0C0;
-font-size: 1.0rem;
-float:right;
-margin-top:20px;
-
-
-`;
-          
+      
 
 class QuestionTable extends React.Component {
   state = {
@@ -91,78 +66,51 @@ render(){
     }
   
   return(
-        <>
-        <Table celled structured>
+    
         
-        <Table.Body>
+        
+    <Container>
+    
 
         {this.state.questions.map((question) => {
           return (
       <>
       
-      <QuestionTitleArea>
-      <QuestionLink key={question.title}>
-    
-      </QuestionLink>
+      <div class = "questBod">
+           <div class = "questionTitle">
+      {question.title}
+      </div>
 
-      <QuestionRow>
-      <Table.Row>
-
-      <Table.Cell textAlign = 'left'>
+      <div className="AnswerDescription">
+         {question.description}
+         </div>
       
-          <QuestionStat>0<span>answers</span></QuestionStat>
-          
-          </Table.Cell>
-          
-          <Table.Header>
-          <Table.Row verticalAlign = 'top'>
-          <Table.Cell className="four-hundred-width">
-           <h4>Title : {question.title} </h4>
-          </Table.Cell>
-          </Table.Row>
-          </Table.Header>
-          <Table.Row verticalAlign = 'top'>
-         <h5> Description :</h5>  {question.description}
-          <br />
-          <br />
-          <br />
-          </Table.Row> 
-       
+         
+                      
+            
+          <div class = "Stats">
+          <p>0 Answers </p>
+          <p>0 Votes</p>
+          </div>
+          <div class = "QAuthorArea"> 
+                      Posted by: {question.author}</div>
 
-          <Table.Row>
-       
-        </Table.Row>
-        </Table.Row>
-
-    <Table.Footer>
-      <Table.Row>
-      <Table.Cell>
-        <DateTime>
-              Posted on {question.created}
-        </DateTime>
-        </Table.Cell>
-        <Table.Cell verticalAlign = 'right'>
-        <DateTime>
-        <a href={"/Questions/"+question.id}> Go to this question </a> 
-        </DateTime>
-        </Table.Cell>
-
-      </Table.Row>
-      
-    </Table.Footer>
-
-          </QuestionRow>
-          </QuestionTitleArea>
+                      <div class = "Stats">
+                      Posted on {question.created}
+                      </div>
+          <a href={"/Questions/"+question.id}> Go to this question </a> 
+          </div>
         </>
     );
   })}
   
-          </Table.Body>
+  </Container>
           
-</Table>
+
+
 
           
-          </>
+          
     );
   }
 

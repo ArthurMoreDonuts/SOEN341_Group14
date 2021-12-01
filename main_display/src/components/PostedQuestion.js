@@ -6,6 +6,12 @@ import axios from 'axios';
 import PostButton from "./PostButton";
 import './styling.css';
 
+import styled from 'styled-components';
+
+const Container = styled.div`
+padding:10px 10px;
+margin-top: 10px;
+`;
 
 
 
@@ -65,6 +71,9 @@ componentDidMount() {
                   console.log(err);
                   this.setState({ hasanswers: false });
                  });
+
+                 
+                 
 
   }
 
@@ -248,6 +257,7 @@ if(voteObjectUsers.includes(user.username)){
 }
 populatingAnswers(){
 const user = JSON.parse(localStorage.getItem('user')); //how to get the username from login system.
+
 if (this.state.hasanswers==false){
        return (<h1>No answers</h1>);
        }
@@ -265,13 +275,56 @@ if(user && user.username == this.state.questionAuthor && this.state.answerSelect
                this.state.answers.map(answer =>
 
                    <div class = "answerBody" >
-                          <p>{answer.response}</p>
-                          <p>{answer.author}</p>
-                            <div> Upvotes : {answer.voteObject.count} </div>
-                            {this.selectBestAnswerButton(answer.id)}
-                            {this.upvoteButton(answer.id,answer.voteObject.usersList)}
+                      <div class = "AuthorArea">
+                         {answer.author}:
+                             </div>
+                                    <div class = "AnswerDescription">
+                                        {answer.response}
+                                        </div>
+                                                              
+                                        <div class = "Stats">
+                                        {answer.voteObject.count} Comments
+                                        <p>{answer.voteObject.count} Upvotes </p>
+                                        <div>
+                                        {this.upvoteButton(answer.id,answer.voteObject.usersList)}
+                                        </div>
+                                        </div>
+
+                            
+
+                                                       
+<div class = "AnswerDescription">                                                            
+<React.Fragment>
+<div> 
+<h6>Comment: </h6>
+<form onSubmit={console.log("form")}>
+    <textarea
+            className="CommentBox"
+             id="exampleFormControlTextarea1"
+             onChange={e =>  this.handleNewAnswerBox(e.target.value)}
+
+
+
+       />
+    <div class = "Stats">
+    <PostButton type='button' onClick = {()=>this.handlePostNewAnswer()} >
+    <s1>Comment</s1>
+    </PostButton>
+    </div>
+
+
+        </form>
+
+</div>
+</React.Fragment>
+</div>                           
                     </div>
+
+                    
+
                 )
+                
+                
 
             )
 
@@ -289,34 +342,114 @@ return (
 
                     return( //if the answer id does not match the selected answer id
                                                             <div class = "answerBodySelectedByPoster" >
-                                                                                  <p>{answer.response}</p>
-                                                                                  <p>{answer.author}</p>
-                                                                                    <div> Upvotes : {answer.voteObject.count} </div>
-                                                                                    {this.upvoteButton(answer.id, answer.voteObject.usersList)}
-                                                                            </div>
-                                                   )
-                }
+                                                                                <div class = "AuthorArea">
+                                                              {answer.author}:
+                                                              </div>
+                                        <div class = "AnswerDescription">
+                                                              {answer.response}
+                                                              </div>
+                                                              
+                                                              <div class = "Stats">
+                                                              {answer.voteObject.count} Comments
+                                                              <p>{answer.voteObject.count} Upvotes </p>
+                                                              <div>
+                                                              {this.upvoteButton(answer.id,answer.voteObject.usersList)}
+                                                                </div>
+                                                              </div>
+
+                                                                                    
+                                        
+
+
+                                                              
+<div class = "AnswerDescription">                                                            
+<React.Fragment>
+<div> 
+<h6>Comment: </h6>
+<form onSubmit={console.log("form")}>
+    <textarea
+            className="CommentBox"
+             id="exampleFormControlTextarea1"
+             onChange={e =>  this.handleNewAnswerBox(e.target.value)}
+
+
+
+       />
+    <div class = "Stats">
+    <PostButton type='button' onClick = {()=>this.handlePostNewAnswer()} >
+    <s1>Comment</s1>
+    </PostButton>
+    </div>
+
+
+        </form>
+
+</div>
+</React.Fragment>
+</div> 
+</div>
+
+ )
+}
 
 
                // answerBodySelectedByPoster
                 else {
                   return( //if the answer id does not match the selected answer id
                                         <div class = "answerBody" >
-                                                              <p>{answer.response}</p>
-                                                              <p>{answer.author}</p>
-                                                                <div> Upvotes : {answer.voteObject.count} </div>
-                                                                {this.upvoteButton(answer.id,answer.voteObject.usersList)}
-                                                        </div>
-                            )
-                  }
+                                        <div class = "AuthorArea">
+                                                              {answer.author}:
+                                                              </div>
+                                        <div class = "AnswerDescription">
+                                                              {answer.response}
+                                                              </div>
+                                                              
+                                                              <div class = "Stats">
+                                                              {answer.voteObject.count} Comments
+                                                              <p>{answer.voteObject.count} Upvotes </p>
+                                                              <div>
+                                                              {this.upvoteButton(answer.id,answer.voteObject.usersList)}
+                                                                </div>
+                                                              </div> 
+                                                              
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+ 
+                                                              <div class = "AnswerDescription">                                                            
+<React.Fragment>
+<div> 
+<h6>Comment: </h6>
+<form onSubmit={console.log("form")}>
+    <textarea
+            className="CommentBox"
+             id="exampleFormControlTextarea1"
+             onChange={e =>  this.handleNewAnswerBox(e.target.value)}
 
 
-                       }
-                    )
+
+       />
+    <div class = "Stats">
+    <PostButton type='button' onClick = {()=>this.handlePostNewAnswer()} >
+    <s1>Comment</s1>
+    </PostButton>
+    </div>
 
 
+        </form>
+
+</div>
+</React.Fragment>
+</div> 
+</div>
+                                                        
+        )
+      }
+    }                  
+  )
 )
-
 
 }
 
@@ -385,6 +518,8 @@ console.log(this.value.thisQuestionID);
 
 }
 
+
+
 render()
     {
      if (this.state.isempty==true){
@@ -392,56 +527,70 @@ render()
        }
 
      return (
-
+    
     <div>
+<Container>
+<h2>Question</h2>
 
            {this.state.questions.map(question =>
-
+            
+            <div class = "questBod">
+            
            <div class = "questionTitle">
-                      <h1>{question.title}</h1>
-               <div className="questionBody">
-
-
-                      <p>{question.description}</p>
-                      <p>{question.author}</p>
-
+                      {question.title}
+                      </div>
+               <div class ="AnswerDescription">
+                      {question.description}        
                 </div>
+                <div class = "QAuthorArea">
+                      Posted by: {question.author}
+                      </div>
+                
             </div>
 
+            
             )}
-
-
-
-            {this.populatingAnswers()}
+            
 
 
 
 
-    //NEW ANSWER
+            <h4>Post a new answer: </h4>
     <React.Fragment>
 <div>
 <form onSubmit={console.log("form")}>
     <textarea
-            className="answerBody"
+            className="CommentBox"
              id="exampleFormControlTextarea1"
              onChange={e =>  this.handleNewAnswerBox(e.target.value)}
 
 
 
        />
+       <div class = "Stats">
     <PostButton type='button' onClick = {()=>this.handlePostNewAnswer()} >
-    <s1>Post new Answer</s1>
+    <s1>Post Answer</s1>
     </PostButton>
-
+    </div>
 
         </form>
 
 </div>
 </React.Fragment>
+            
+            <div>
+            <h2># of Answers</h2>
+            {this.populatingAnswers()}
+            
+            
+            </div>
+
+    
 
 
-
+</Container>
 </div>
+
           ) // END OF RETURN
 
 
