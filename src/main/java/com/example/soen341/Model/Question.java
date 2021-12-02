@@ -14,6 +14,7 @@ public class Question {
     private String id;
     private String author;
     private String title;
+    private int answers; 
     private String description;
     private LocalDateTime created;
     private boolean answered;

@@ -1,0 +1,29 @@
+{
+	"info": {
+		"_postman_id": "316269a4-ae70-4fce-aed0-96ff42aa18db",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/api/Questions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/Questions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"Questions"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

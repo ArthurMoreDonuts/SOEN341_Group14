@@ -130,6 +130,7 @@ class AnswerController{
             else
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             q.setAnswered(true);
+            q.setAnswers(q.getAnswers()+ 1);
             qRepo.save(q);
             return new ResponseEntity<>(answeredQuestion,HttpStatus.CREATED);
         }catch (Exception e){
@@ -166,6 +167,23 @@ class AnswerController{
     @DeleteMapping("/Answers/{ansId}")
     public ResponseEntity<HttpStatus> deleteAnswerById(@PathVariable("ansId") String aId){
         try {
+            Optional<Answer> aById = answerRepo.findById(aId);
+            if (aById.isPresent()){
+                Answer ans = aById.get();
+                Optional<Question> QbyId = qRepo.findById(ans.getQuestionId());
+                Question q;
+                if (QbyId.isPresent()){
+                     q= QbyId.get();
+                     q.setAnswers(q.getAnswers()-1);
+                     qRepo.save(q);
+                    }
+                else {
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+            else {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
             answerRepo.deleteById(aId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
@@ -190,6 +208,7 @@ class AnswerController{
             else
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             q.setAnswered(false);
+            q.setAnswers(0);
             qRepo.save(q);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
