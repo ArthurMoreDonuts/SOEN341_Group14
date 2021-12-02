@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Switch, Route, Link } from "react-router-dom";
 import AskQuestions from "./AskQuestions";
-import Counters from './counters';
+import Counters from './Counters';
 import { Login } from './login';
 import { Register } from './login';
-import listOfQuestions from './listOfQuestions';
+import listOfQuestions from './ListOfQuestions';
 import postedQuestion from './PostedQuestion';
 import ProfilePage from "./profile/ProfilePage";
-import listOfAnswers from './listOfAnswers';
+import listOfAnswers from './ListOfAnswers';
 
 import styled from 'styled-components';
 

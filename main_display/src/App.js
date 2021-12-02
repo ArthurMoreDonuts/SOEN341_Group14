@@ -1,7 +1,7 @@
 
 import React, {Component} from 'react';
-import NavBar from './components/navbar';
-import Counters from './components/counters';
+import NavBar from './components/Navbar';
+import Counters from './components/Counters';
 import './App.css';
 import AskQuestions from "./components/AskQuestions";
 import { Switch, Route, Link } from "react-router-dom";
