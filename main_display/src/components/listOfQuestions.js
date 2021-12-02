@@ -2,6 +2,16 @@ import React from "react";
 import DataService from "../services/question.service";
 import axios from 'axios';
 import './styling.css';
+import PostButton from "./PostButton";
+import styled from 'styled-components';
+import {  Table } from "semantic-ui-react";
+
+const Container = styled.div`
+padding:10px 10px;
+margin-top: 10px;
+`;
+
+
 
 export class listOfQuestions extends React.Component{
 state = {
@@ -21,6 +31,7 @@ state = {
                 this.setState({ isempty: true });
                });
   }
+  
 
 render()
     {
@@ -29,24 +40,27 @@ render()
            }
 
      return (
+      
 
-    <ul>
 
+
+<Container>
+<div><h1>Questions</h1></div>
            {this.state.questions.map(question =>
-
+            <div class = "questBod">
            <div class = "questionTitle">
-                     <a href={"/Questions/"+question.id}> <h1>{question.title}</h1> </a>
-               <div className="questionBody">
-
-
-                      <p>{question.description}</p>
-                      <p>{question.author}</p>
-
-                </div>
-            </div>
-
+                     <a href={"/Questions/"+question.id}> {question.title} </a></div>
+               <div className="AnswerDescription">
+                      {question.description}</div>
+                      <div class = "QAuthorArea"> 
+                      Posted by: {question.author}</div>
+                      </div>
             )}
-    </ul>
+
+            </Container>
+    
+
+    
           )
 
 

@@ -6,8 +6,9 @@ const PostButton = styled.button`
   color: #fff;
   border:0;
   border-radius: 5px;
-  padding: 15px 30px;
+  padding: 15px 20px;
   text-decoration: none;
+  margin: 0px 0px 0px 10px;
   
   `;
 

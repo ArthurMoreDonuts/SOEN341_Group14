@@ -1,42 +1,66 @@
 .questionTitle {
-     background-color : #9ea89f;
+       border-bottom-style: inset;
+       border-bottom-width: 1px;
+       border-bottom-color: #738aaad8;
      color: #00000;
      text-align: left;
+     margin: 10px 0px 0px 0px;
+     padding: 0px 0px 10px 10px;
+     font-size: 1.5rem;
+     font-weight: bold;
 }
 .questionBody {
        border-collapse: collapse;
        margin: 2px 0;
-       font-size: 0.9em;
+       font-size: 1rem;
        font-family: sans-serif;
        min-width: 400px;
        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+       
 }
 
 .answerBody {
-       background-color : #000FFF;
-       color : #FFF;
+       background-color : #93cffdd0;
+       color : rgb(0, 0, 0);
        border-collapse: collapse;
-       margin: 10px 0;
+       border-color:  #738aaad8;
+       border-style: solid;
+       
+       margin: 10px 0px;
        font-size: 0.9em;
        font-family: sans-serif;
        min-width: 400px;
        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+       padding: 0px 0px 10px 0px;
 }
 
 .answerBodySelectedByPoster {
-       background-color : #00FFFF;
-       color : #FFF;
+       background-color : #5cb3ec;
+       color : rgb(0, 0, 0);
        border-collapse: collapse;
+       border-style: solid;
+       border-color:  #738aaad8;
        margin: 10px 0;
        font-size: 0.9em;
        font-family: sans-serif;
        min-width: 400px;
        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+       padding: 0px 0px 10px 0px;
 }
-
+.AnswerDescription
+{
+      text-align: left;
+      color : rgb(0, 0, 0);
+      margin: 5px 0px 2px 0px;
+      font-size: 1.2rem;
+      font-family: sans-serif;
+      min-width: 400px;
+      padding: 5px 5px 15px 10px;
+      
+}
+ 
 .QuestionTextBox
     {
-    foreground:#FFFFF;
  background:none;
   border: 1px solid #aaa;
   border-radius: 3px;
@@ -48,3 +72,67 @@
   margin-bottom: 20px;
   }
 
+ .AuthorArea
+ {
+  text-align: left;
+  font-size: 1.5rem;
+  color : #FFF;
+  padding:10px 0px 10px 10px;
+  border-bottom-style: inset;
+  border-bottom-width: 1px;
+  border-bottom-color: #738aaad8;
+ }
+
+
+.Stats
+{
+text-align: right;
+  font-size: 0.9rem;
+  color : rgb(33, 35, 73);
+  padding:10px 5px 5px 0px;
+  
+}
+
+.CommentBox {
+
+font-size: 1.2 rem;
+background-color:#d4eeff;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  display: #fff;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin-bottom: 10px;
+
+
+}
+
+.questBod{
+       background-color : #9e9e9ed0;
+       color : rgb(0, 0, 0);
+       border-collapse: collapse;
+       border-color:  #738aaad8;
+       border-style: solid;
+       
+       margin: 10px 0px;
+       font-size: 0.9em;
+       font-family: sans-serif;
+       min-width: 400px;
+       box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+       padding: 0px 0px 10px 0px;
+}
+
+.QAuthorArea
+ {
+  text-align: right;
+  font-size: 0.9rem;
+  color : #FFF;
+  padding:10px 10px 5px 0px;
+  
+ }
+
+.TAlign {
+text-align: right;
+
+}
