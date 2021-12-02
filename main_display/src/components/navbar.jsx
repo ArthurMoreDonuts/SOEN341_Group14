@@ -37,9 +37,7 @@ class NavBar extends Component {
                             {this.props.totalCounters}
                         </span>
                         
-                        <button class="btn btn-outline-success me-2" type="button">
-                        <Link to={"/MainPage"} className="nav-link">
-                            Main Page</Link></button>
+
                         <button class="btn btn-outline-success me-2" type="button">
                         <Link to={"/Profile"} className="nav-link">
                               Profile
@@ -51,12 +49,6 @@ class NavBar extends Component {
                             </Link>
                         </button>
 
-                        <button class="btn btn-outline-success me-2" type="button">
-                        <Link to={"/Answers"} className="nav-link">
-                                    Answers
-                            </Link>
-                        
-                        </button>
 
 
                         <button class="btn btn-outline-success me-2" type="button">
@@ -84,12 +76,12 @@ class NavBar extends Component {
                 <div className="container mt-3">
           <Switch>
             <Route exact path="/ask" component={AskQuestions} />
-            <Route exact path="/MainPage" component={Counters} />
+
             <Route exact path="/Login" component={Login} />
             <Route exact path="/Register" component={Register} />
             <Route exact path="/Questions" component={listOfQuestions} />
             <Route exact path="/Profile" component={ProfilePage} />
-            <Route exact path="/Answers" component={listOfAnswers} />
+
             <Route path="/Questions/:id" component = {postedQuestion}/>
           </Switch>
         </div>
