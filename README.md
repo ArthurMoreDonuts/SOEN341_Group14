@@ -24,3 +24,9 @@ The core features to be developed are: Being able to post and answer questions, 
 * React JS
 * Bootstrap
 * MongoDB
+
+## Conventions
+*Variables : Camel Case
+*File Names : First Letter of each word Capitalized
+
+
